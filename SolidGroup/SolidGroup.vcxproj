@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{757F8ECF-E5C0-465B-BAC4-1A98071F2CC7}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>SolidGroup</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>GlobalHandlers;StoredData;ChangeOut;CommunicationTube;../tcp;../Grid;../Base;../L502_SolidGroup;../1730;Dates;Viewer;..\Graphics;1730;DebugApp;ArchiveEvents;Automat;Messages;..\Dlg;DlgOptions;../debug_tools;window;../window_tool;../base;../templates;AppBase;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../L502_SolidGroup;</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>StoredData;ChangeOut;CommunicationTube;../tcp;../Grid;../Base;../L502_SolidGroup;../1730;Dates;Viewer;..\Graphics;1730;DebugApp;ArchiveEvents;Automat;Messages;..\Dlg;DlgOptions;../debug_tools;window;../window_tool;../base;../templates;AppBase;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="small.ico" />
+    <None Include="SolidGroup.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\1730\Device1730.h" />
+    <ClInclude Include="..\Base\Base.hpp" />
+    <ClInclude Include="..\Base\tables.hpp" />
+    <ClInclude Include="..\DebugApp\Debug1730.h" />
+    <ClInclude Include="..\debug_tools\DebugMess.h" />
+    <ClInclude Include="..\Dlg\dlg.hpp" />
+    <ClInclude Include="..\Dlg\DlgItems.h" />
+    <ClInclude Include="..\Dlg\DlgTemplate.hpp" />
+    <ClInclude Include="..\Dlg\dlg_templates.h" />
+    <ClInclude Include="..\Dlg\EditDlg.h" />
+    <ClInclude Include="..\Dlg\ParamDlg.h" />
+    <ClInclude Include="..\Dlg\ParamDlg.hpp" />
+    <ClInclude Include="..\Graphics\BarSeries.h" />
+    <ClInclude Include="..\Graphics\Borders.h" />
+    <ClInclude Include="..\Graphics\Chart.h" />
+    <ClInclude Include="..\Graphics\Chart.hpp" />
+    <ClInclude Include="..\Graphics\ColorLabel.h" />
+    <ClInclude Include="..\Graphics\GridChart.h" />
+    <ClInclude Include="..\Grid\Grid.h" />
+    <ClInclude Include="..\Grid\GridItems.h" />
+    <ClInclude Include="..\L502_SolidGroup\l502api.h" />
+    <ClInclude Include="..\L502_SolidGroup\L502SolidGroup.h" />
+    <ClInclude Include="..\L502_SolidGroup\lpcie.h" />
+    <ClInclude Include="..\L502_SolidGroup\pstdint.h" />
+    <ClInclude Include="..\L502_SolidGroup\SolenoidParametersTableDlg.h" />
+    <ClInclude Include="..\TCP\Client.h" />
+    <ClInclude Include="..\TCP\CommonTcp.h" />
+    <ClInclude Include="..\TCP\server.h" />
+    <ClInclude Include="..\templates\macro.hpp" />
+    <ClInclude Include="..\templates\sort.hpp" />
+    <ClInclude Include="..\templates\templates.hpp" />
+    <ClInclude Include="..\templates\typelist.hpp" />
+    <ClInclude Include="..\templates\WindowsEventTemplate.hpp" />
+    <ClInclude Include="..\window_tool\DlgFiles.h" />
+    <ClInclude Include="..\window_tool\Emptywindow.h" />
+    <ClInclude Include="..\window_tool\HookKey.h" />
+    <ClInclude Include="..\window_tool\InitToolbar.hpp" />
+    <ClInclude Include="..\window_tool\InRect.h" />
+    <ClInclude Include="..\window_tool\MenuAPI.h" />
+    <ClInclude Include="..\window_tool\message.h" />
+    <ClInclude Include="..\window_tool\Pass.h" />
+    <ClInclude Include="..\window_tool\ToolBarWidth.hpp" />
+    <ClInclude Include="AppBase\AdditionalBase.h" />
+    <ClInclude Include="AppBase\AppBase.h" />
+    <ClInclude Include="AppBase\BaseDefine.h" />
+    <ClInclude Include="AppBase\Config.h" />
+    <ClInclude Include="AppBase\GlobalItems.h" />
+    <ClInclude Include="ArchiveEvents\ArchiveEvents.h" />
+    <ClInclude Include="ArchiveEvents\Events.h" />
+    <ClInclude Include="Automat\Automat.h" />
+    <ClInclude Include="Automat\Compute.h" />
+    <ClInclude Include="Automat\InOutBits.hpp" />
+    <ClInclude Include="ChangeOut\ChangeOut.h" />
+    <ClInclude Include="CommunicationTube\ClientTreshold.h" />
+    <ClInclude Include="CommunicationTube\Communication.h" />
+    <ClInclude Include="Dates\AutomaticOptionsTresholds.h" />
+    <ClInclude Include="Dates\AutomaticTresholdsCommon.h" />
+    <ClInclude Include="Dates\ChartData.h" />
+    <ClInclude Include="Dates\Corel.h" />
+    <ClInclude Include="Dates\CounterTubes.h" />
+    <ClInclude Include="Dates\SaveLoadDates.h" />
+    <ClInclude Include="Dates\SetRemoveTresholds.h" />
+    <ClInclude Include="Dates\SolidData.h" />
+    <ClInclude Include="Dates\UpdateMainChart.h" />
+    <ClInclude Include="DlgOptions\Dialogs.h" />
+    <ClInclude Include="GlobalHandlers\GlobalHandlers.h" />
+    <ClInclude Include="Messages\Messages.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="SolidGroup.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StoredData\StoredData.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Viewer\AutomaticChart.h" />
+    <ClInclude Include="Viewer\AutomaticChartMenu.hpp" />
+    <ClInclude Include="Viewer\AutomaticChartToolBar.h" />
+    <ClInclude Include="Viewer\AutomaticThresholdPanel.h" />
+    <ClInclude Include="Viewer\AutomaticTresholdChart.h" />
+    <ClInclude Include="Viewer\FrameViewer.h" />
+    <ClInclude Include="Viewer\SensorViewer.h" />
+    <ClInclude Include="Viewer\SignalViewer.h" />
+    <ClInclude Include="Viewer\SolidGridViewer.h" />
+    <ClInclude Include="Viewer\TopLabelViewer.h" />
+    <ClInclude Include="Viewer\TresholdPanelViewer.h" />
+    <ClInclude Include="Viewer\TresholdViewer.h" />
+    <ClInclude Include="Viewer\TresholdsGridViewer.h" />
+    <ClInclude Include="Viewer\ZonesViewer.h" />
+    <ClInclude Include="Window\AutomaticDlg.h" />
+    <ClInclude Include="Window\AutomaticThresholdsWindow.h" />
+    <ClInclude Include="Window\MainWindow.h" />
+    <ClInclude Include="Window\MainWindowMenu.hpp" />
+    <ClInclude Include="Window\MainWindowToolBar.h" />
+    <ClInclude Include="Window\SelectTypeSize.h" />
+    <ClInclude Include="Window\TresholdsWindowMenu.hpp" />
+    <ClInclude Include="Window\TresholdWindow.h" />
+    <ClInclude Include="Window\ZonesWindow.h" />
+    <ClInclude Include="Window\ZonesWindowMenu.hpp" />
+    <ClInclude Include="Window\ZonesWindowToolBar.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\1730\Device1730.cpp" />
+    <ClCompile Include="..\DebugApp\Debug1730.cpp" />
+    <ClCompile Include="..\debug_tools\DebugMess.cpp" />
+    <ClCompile Include="..\Dlg\DlgItems.cpp" />
+    <ClCompile Include="..\Dlg\EditDlg.cpp" />
+    <ClCompile Include="..\Dlg\ParamDlg.cpp" />
+    <ClCompile Include="..\Graphics\BarSeries.cpp" />
+    <ClCompile Include="..\Graphics\Borders.cpp" />
+    <ClCompile Include="..\Graphics\Chart.cpp" />
+    <ClCompile Include="..\Graphics\ColorLabel.cpp" />
+    <ClCompile Include="..\Graphics\GridChart.cpp" />
+    <ClCompile Include="..\Grid\Grid.cpp" />
+    <ClCompile Include="..\Grid\GridItems.cpp" />
+    <ClCompile Include="..\L502_SolidGroup\L502SolidGroup.cpp" />
+    <ClCompile Include="..\L502_SolidGroup\SolenoidParametersTableDlg.cpp" />
+    <ClCompile Include="..\TCP\Client.cpp" />
+    <ClCompile Include="..\TCP\CommonTcp.cpp" />
+    <ClCompile Include="..\TCP\server.cpp" />
+    <ClCompile Include="..\window_tool\DlgFiles.cpp" />
+    <ClCompile Include="..\window_tool\EmptyWindow.cpp" />
+    <ClCompile Include="..\window_tool\HookKey.cpp" />
+    <ClCompile Include="..\window_tool\InRect.cpp" />
+    <ClCompile Include="..\window_tool\MenuAPI.cpp" />
+    <ClCompile Include="..\window_tool\Pass.cpp" />
+    <ClCompile Include="AppBase\AdditionalBase.cpp" />
+    <ClCompile Include="AppBase\AppBase.cpp" />
+    <ClCompile Include="AppBase\GlobalItems.cpp" />
+    <ClCompile Include="ArchiveEvents\ArchiveEvents.cpp" />
+    <ClCompile Include="Automat\Automat.cpp" />
+    <ClCompile Include="Automat\Compute.cpp" />
+    <ClCompile Include="ChangeOut\ChangeOut.cpp" />
+    <ClCompile Include="CommunicationTube\ClientTreshold.cpp" />
+    <ClCompile Include="CommunicationTube\Communication.cpp" />
+    <ClCompile Include="Dates\AutomaticOptionsTresholds.cpp" />
+    <ClCompile Include="Dates\ChartData.cpp" />
+    <ClCompile Include="Dates\Corel.cpp" />
+    <ClCompile Include="Dates\CounterTubes.cpp" />
+    <ClCompile Include="Dates\SaveLoadDates.cpp" />
+    <ClCompile Include="Dates\SetRemoveTresholds.cpp" />
+    <ClCompile Include="Dates\SolidData.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">L502_SolidGroup;Viewer;..\Graphics;1730;DebugApp;ArchiveEvents;Automat;Messages;..\Dlg;DlgOptions;../debug_tools;window;../window_tool;../base;../templates;AppBase;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile Include="Dates\UpdateMainChart.cpp" />
+    <ClCompile Include="DlgOptions\AboutWindow.cpp" />
+    <ClCompile Include="DlgOptions\CoordinateDlg.cpp" />
+    <ClCompile Include="DlgOptions\InputOutputDlg.cpp" />
+    <ClCompile Include="DlgOptions\ParamDlgL502.cpp" />
+    <ClCompile Include="DlgOptions\ReferencePoints.cpp" />
+    <ClCompile Include="DlgOptions\TcpCommunications.cpp" />
+    <ClCompile Include="GlobalHandlers\GlobalHandlers.cpp" />
+    <ClCompile Include="Messages\Messages.cpp" />
+    <ClCompile Include="SolidGroup.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StoredData\StoredData.cpp" />
+    <ClCompile Include="Viewer\AutomaticChart.cpp" />
+    <ClCompile Include="Viewer\AutomaticChartToolBar.cpp" />
+    <ClCompile Include="Viewer\AutomaticThresholdPanel.cpp" />
+    <ClCompile Include="Viewer\AutomaticTresholdChart.cpp" />
+    <ClCompile Include="Viewer\FrameViewer.cpp" />
+    <ClCompile Include="Viewer\SensorViewer.cpp" />
+    <ClCompile Include="Viewer\SignalViewer.cpp" />
+    <ClCompile Include="Viewer\SolidGridViewer.cpp" />
+    <ClCompile Include="Viewer\TopLabelViewer.cpp" />
+    <ClCompile Include="Viewer\TresholdPanelViewer.cpp" />
+    <ClCompile Include="Viewer\TresholdViewer.cpp" />
+    <ClCompile Include="Viewer\TresholdsGridViewer.cpp" />
+    <ClCompile Include="Viewer\ZonesViewer.cpp" />
+    <ClCompile Include="Window\AutomaticDlg.cpp" />
+    <ClCompile Include="Window\AutomaticThresholdsWindow.cpp" />
+    <ClCompile Include="Window\MainWindow.cpp" />
+    <ClCompile Include="Window\MainWindowToolBar.cpp" />
+    <ClCompile Include="Window\SelectTypeSize.cpp" />
+    <ClCompile Include="Window\TresholdWindow.cpp" />
+    <ClCompile Include="Window\ZonesWindow.cpp" />
+    <ClCompile Include="Window\ZonesWindowToolBar.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SolidGroup.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

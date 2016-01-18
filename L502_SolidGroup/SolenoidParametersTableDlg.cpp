@@ -18,24 +18,6 @@ template<>struct DlgItem<Frequency502>
 	}
 };
 
-
-/*
-template<class P>struct __ok_btn__<DlgItem<InputRangeSignal>, P>
-{
-	typedef DlgItem<InputRangeSignal> O;
-	void operator()(O *o, P *p)
-	{
-		dprint("%s", __FUNCTION__);
-        o->value.value =  __data_from_widget__<O, __data_from_widget__<O, Holder<128> > >()(*o);
-		p->update.set<typename TL::Inner<O>::Result>(o->value.value);
-	}
-};
-*/
-
-
-
-
-
 namespace SolenoidParametersTableDlgSpace
 {
 PARAM_TITLE(Frequency502, L"Частота сбора одного канала(устанавливается при пусконаладке)")
@@ -123,7 +105,6 @@ template<class P>struct __ok_btn__<DlgItem<InputRangeSignal>, P>
 		dprint("%s", __FUNCTION__);
 		wchar_t s[128];
 	    GetWindowText(o->hWnd, s, dimention_of(s));
-			//__data_from_widget__<O, __data_from_widget__<O, Holder<128> > >()(*o);
 		int i = 0;
 		for(; i < dimention_of(SolenoidParametersTableDlgSpace::SyncGainData); ++i)
 		{

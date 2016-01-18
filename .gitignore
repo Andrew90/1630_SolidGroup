@@ -34,3 +34,5 @@ _ReSharper*/
 
 .HistoryData/
 *.opensdf
+ipch/
+*.sdf

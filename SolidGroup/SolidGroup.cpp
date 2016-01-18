@@ -9,7 +9,7 @@
 #include "EmptyWindow.h"
 
 #include "DebugMess.h"
-//#include "ArchiveEvents.h"
+
 #include "GlobalItems.h"
 #include "CommonTcp.h"
 
@@ -39,10 +39,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;    
 	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 //--------------------------------------------------------------------
-#ifdef XDEBUG
-	debug.Init();
-	debug.print("Ok thickness");
-#endif	
+	dprint("Ok thickness");
 	Initialize initialize;
 	CommonTcp commonTcp;
 	HWND h = NULL;

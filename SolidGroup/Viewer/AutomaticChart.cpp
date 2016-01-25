@@ -106,51 +106,6 @@ void AutomaticChart::RightOffset()
 	Repaint();
 }
 //---------------------------------------------------------------------------------------------------
-#if 0
-void AutomaticChart::FrameBorder()
-{
-	int z = 0;
-	int i = offset;
-	int (&offsets)[8] = AutomaticThresholdsWindow::Instance().automaticOptionsTresholds.tresholds;
-	bool b = false;
-	for(; z < width && solidData.referenceBuffer[i] > 0; ++z, ++i) b = true;
-	if(b)
-	{
-	//for(; z < width; ++z)
-//	{
-	//	if(solidData.referenceBuffer[i] < 0)
-	//	{
-			start = i;
-		//	break;
-	//	}
-	//	++i;
-	//}
-	for(; z < width; ++z)
-	{
-		if(solidData.referenceBuffer[i] > 0)
-		{
-			stop = i;
-			int length = stop - start;
-			wchar_t *s = label.buffer;
-			wsprintf(s, L"<ff>");
-			for(int i = 0; i < dimention_of(corel.inputItem.elements); ++i)
-			{
-				int x = start + int((double)length * offsets[i] / 100.0);
-				corel.inputItem.elements[i] = solidData.dataBuffer[x];
-				points[i] = x;
-				s = &s[wcslen(s)];
-				wsprintf(s, L"%s  ", Wchar_from<double>(corel.inputItem.elements[i])());
-			}
-
-			corel.Compute();
-			AutomaticThresholdsWindow::Instance().chart.Repaint();
-			break;
-		}
-		++i;
-	}
-	}
-}
-#else
 struct DataBufferXX: Compute::Data
 {
 public:
@@ -168,11 +123,11 @@ void AutomaticChart::FrameBorder()
 	bool b = false;
 	int z = 0;
 	int i = offset;
-	for(; z < width && solidData.referenceBuffer[i] > 0; ++z, ++i) b = true;
+	for(; z < width && solidData.dataBuffer[i] < 0; ++z, ++i) b = true;
 	int start = i;
 	if(!b) return;
 	b = false;
-	for(; z < width && solidData.referenceBuffer[i] < 0; ++z, ++i) b = true;
+	for(; z < width && solidData.dataBuffer[i] > 0; ++z, ++i) b = true;
 	int stop = i;
 	if(b)
 	{
@@ -210,7 +165,6 @@ void AutomaticChart::FrameBorder()
 	AutomaticThresholdsWindow::Instance().chart.Repaint();
 	}
 }
-#endif
 
 void AutomaticChart::VThreshold::Draw()
 {

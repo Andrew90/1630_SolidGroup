@@ -33,86 +33,6 @@ template<>struct SelectWithWapper<NullType>
 };
 }
 //--------------------------------------------------------------------------------------
-/*
-
-*/
-
-#if 0
-struct DataBufferX: Compute::Data
-{
-public:
-	DataBufferX(wchar_t *path)
-	{
-		
-	}
-	~DataBufferX()
-	{
-		
-	}
-	double dataBuffer(int i)
-	{
-		return solidData.dataBuffer[i];
-	}
-	double referenceBuffer(int i)
-	{
-		return solidData.referenceBuffer[i];
-	}
-};
-void AutomaticOptionsTresholds::SubUpdate(wchar_t *letter, unsigned color)
-{
-	WIN32_FIND_DATA fd; 
-	wsprintf(subPath, L"%s\\*.dat", letter); 
-    HANDLE hFind = ::FindFirstFile(path, &fd); 
-	if(hFind != INVALID_HANDLE_VALUE) 
-	{ 
-		do 
-		{ 
-			// read all (real) files in current folder
-			// , delete '!' read other 2 default folder . and ..
-			if(! (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ) 
-			{
-				wsprintf(subPath, L"%s\\%s", letter, fd.cFileName); 
-				FILE *f = _wfopen(path, L"rb");
-				if(NULL != f)
-				{
-					if(fread(&solidData.currentOffset, sizeof(solidData.currentOffset), 1, f))
-					{
-						if(solidData.currentOffset < SolidData::MAX_ZONES_COUNT)
-						{
-							bool b = fread(solidData.referenceBuffer, sizeof(double) * solidData.currentOffset, 1, f)
-								&& fread(&solidData.dataBuffer, sizeof(double) * solidData.currentOffset, 1, f)
-								;
-							if(b)
-							{
-				                DataBufferX dataBuff(path);
-								int start = int(0.1 * solidData.currentOffset);
-								int stop = solidData.currentOffset - start;
-								double inputs[1024] = {};
-								int length;
-								compute.SubCompute(
-									tresholds
-									, start
-									, stop
-									, dataBuff
-									, inputs
-									, length
-									);
-								Data data;
-								memcpy(data.tresholds, corel.inputItem.elements, sizeof(data.tresholds));
-								data.Name = letter;
-								data.color = color;
-								thresholdsData.push_back(data);
-							}
-						}
-					}
-					fclose(f);
-				}
-			}
-		}while(::FindNextFile(hFind, &fd)); 
-		::FindClose(hFind); 
-	} 
-}
-#else
 struct DataBufferX: Compute::Data
 {
 	FILE *f;
@@ -184,69 +104,41 @@ void AutomaticOptionsTresholds::SubUpdate(wchar_t *letter, unsigned color)
 {
 	WIN32_FIND_DATA fd; 
 	wsprintf(subPath, L"%s\\*.dat", letter); 
-    HANDLE hFind = ::FindFirstFile(path, &fd); 
+	HANDLE hFind = ::FindFirstFile(path, &fd); 
 	if(hFind != INVALID_HANDLE_VALUE) 
 	{ 
 		do 
 		{ 
-			// read all (real) files in current folder
-			// , delete '!' read other 2 default folder . and ..
 			if(! (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ) 
 			{
 				wsprintf(subPath, L"%s\\%s", letter, fd.cFileName); 
-				/*
-				FILE *f = _wfopen(path, L"rb");
-				if(NULL != f)
+				DataBufferX dataBuff(path);
+				if(dataBuff.ok)
 				{
-					if(fread(&solidData.currentOffset, sizeof(solidData.currentOffset), 1, f))
-					{
-						if(solidData.currentOffset < SolidData::MAX_ZONES_COUNT)
-						{
-							bool b = fread(solidData.referenceBuffer, sizeof(double) * solidData.currentOffset, 1, f)
-								&& fread(&solidData.dataBuffer, sizeof(double) * solidData.currentOffset, 1, f)
-								;
-							if(b)
-							{
-							*/
-								//////////////////////
-#pragma message("дописать настройку порогов")
-				                DataBufferX dataBuff(path);
-								if(dataBuff.ok)
-								{
-								int start = int(0.1 * dataBuff.currentOffset);
-								int stop = dataBuff.currentOffset - start;
-								double inputs[1024] = {};
-								int length;
-						//		 while(dataBuff.referenceBuffer(start) > 0) ++start;
-								compute.SubCompute(
-									tresholds
-									, start
-									, stop
-									, dataBuff
-									, inputs
-									, length
-									);
-								/////////////////////////////
-								Data data;
-								memcpy(data.tresholds, corel.inputItem.elements, sizeof(data.tresholds));
-								data.Name = letter;
-								data.color = color;
-								data.File = fd.cFileName;
-								thresholdsData.push_back(data);
-								}
-								/*
-							}
-						}
-					}
-					fclose(f);
+					int start = int(0.1 * dataBuff.currentOffset);
+					int stop = dataBuff.currentOffset - start;
+					double inputs[1024] = {};
+					int length;
+					compute.SubCompute(
+						tresholds
+						, start
+						, stop
+						, dataBuff
+						, inputs
+						, length
+						);
+					Data data;
+					memcpy(data.tresholds, corel.inputItem.elements, sizeof(data.tresholds));
+					data.Name = letter;
+					data.color = color;
+					data.File = fd.cFileName;
+					thresholdsData.push_back(data);
 				}
-				*/
 			}
 		}while(::FindNextFile(hFind, &fd)); 
 		::FindClose(hFind); 
 	} 
 }
-#endif
 
 void AutomaticOptionsTresholds::Update()
 {
@@ -258,7 +150,6 @@ void AutomaticOptionsTresholds::Update()
     SubUpdate(L"TEST", -1);
 	corel.inputItem.classTube = 0;
 	memset(corel.inputItem.elements, 0, sizeof(corel.inputItem.elements));
-	//solidTubeItem
 	for( std::vector<Corel::SolidTubeItem *>::iterator i = corel.solidTubeItem.begin(); i != corel.solidTubeItem.end(); ++i)
 	{
 		(*i)->correlation = 0;

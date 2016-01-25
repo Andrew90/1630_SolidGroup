@@ -7,17 +7,7 @@
 #include "MainWindow.h"
 
 #include "TresholdsWindowMenu.hpp"
-//#include "MainWindowToolBar.h"
-/*
-#include "InitToolBar.hpp"
-*/
 #include "EmptyWindow.h"
-/*
-#include "TopLabelViewer.h"
-#include "ThicknessViewer.h"
-#include "ToolBArWidth.hpp"
-#include "GlobalItems.h"
-*/
 #include "UpdateMainChart.h"
 
 #include "DebugMess.h"
@@ -87,7 +77,7 @@ void TresholdWindow::Open_()
 				, o.get<OffsetWindowX>().value
 				, o.get<OffsetWindowY>().value
 				, o.get<WindowWidth>().value
-				, 310//o.get<WindowHeight>().value
+				, 310
 				);
 		}
 		SetWindowText(hWnd, buf);
@@ -99,9 +89,6 @@ void TresholdWindow::UpdateTresholdGrid()
 	HWND hWnd = Instance().hWnd;
 	if(hWnd)
 	{
-		//SetWindowText(hWnd, L"TresholdWindow");
-		//SendMessage(hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
-		//SetForegroundWindow(hWnd);
 		ListView_Update(Instance().grid.hWnd, 0);
 	}
 }

@@ -41,7 +41,6 @@ struct DataBuffer: Compute::Data
 
 bool Compute::SubCompute(int(&tresholds)[8], int start, int stop, Data &data, double(&inputs)[1024], int &length)
 {
-#pragma message("дописанны???? настройки управления частоты платы и частоту токового сигнала")
 	const int period = frequency502 / (2 * 2 * frequenctGenerator);
 	const int periodMin = int(0.9 * period);
 	const int perionMax = int(1.1 * period);
@@ -49,11 +48,11 @@ bool Compute::SubCompute(int(&tresholds)[8], int start, int stop, Data &data, do
 	length = 0;
 	for(int i = start; i < stop;)
 	{
-		while(data.referenceBuffer(i) > 0 && i < stop) ++i;
+		while(data.dataBuffer(i) < 0 && i < stop) ++i;
 		int k = 0;
 		int zeroStart = i;
 		
-		for(; k < dimention_of(inputs)&&data.referenceBuffer(i) < 0; ++k, ++i);
+		for(; k < dimention_of(inputs)&&data.dataBuffer(i) > 0; ++k, ++i);
 	
 		if(k > periodMin && k < perionMax)
 		{

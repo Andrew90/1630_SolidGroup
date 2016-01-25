@@ -42,17 +42,7 @@ private:
 		, BottomAxes 
     	, Signal
 		, Reference
-		, Grid	
-		/*
-		, Threshold<1>
-		, Threshold<2>
-		, Threshold<3>
-		, Threshold<4>
-		, Threshold<5>
-		, Threshold<6>
-		, Threshold<7>
-		, Threshold<8>
-		*/
+		, Grid			
 	>::Result> chart;
 	CursorLabel cursorLabel;
 public:

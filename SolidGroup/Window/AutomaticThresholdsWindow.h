@@ -26,6 +26,7 @@ public:
 	void operator()(TGetMinMaxInfo &);
 	unsigned operator()(TCreate &);
 	void operator()(TDestroy &);
+	void operator()(TKeyDown &);
 public:
 	static AutomaticThresholdsWindow &Instance();
 	void Open();

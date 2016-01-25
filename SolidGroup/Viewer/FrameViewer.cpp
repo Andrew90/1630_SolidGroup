@@ -136,13 +136,11 @@ void FrameViewer::operator()(TMouseMove &l)
 //----------------------------------------------------------------------------------------------------
 void FrameViewer::operator()(TLButtonDown &l)
 {
-	//chart.items.get<VCursor1>().SetCoordinate(*(POINTS *)&storedMouseMove.x);
 	RepaintWindow(l.hwnd);
 }
 //----------------------------------------------------------------------------------------------------
 void FrameViewer::operator()(TRButtonDown &l)
 {
-	//chart.items.get<VCursor2>().SetCoordinate(*(POINTS *)&storedMouseMove.x);
 	RepaintWindow(l.hwnd);
 }
 //----------------------------------------------------------------------------------------------------

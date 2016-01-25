@@ -3,6 +3,7 @@
 #include "MenuApi.h"
 #include "EmptyWindow.h"
 #include "AutomaticChartToolBar.h"
+#include "TresholdWindow.h"
 
 #include "DebugMess.h"
 
@@ -89,4 +90,19 @@ void AutomaticThresholdsWindow::Open()
 	SetWindowText(hWnd, buf);
 	SendMessage(hWnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 	SetForegroundWindow(hWnd);
+}
+void AutomaticThresholdsWindow::operator()(TKeyDown &l)
+{
+	switch(l.VirtKey)
+	{
+	case VK_RIGHT:
+		automaticChart.LeftOffset();
+		TresholdWindow::Instance().UpdateTresholdGrid();
+		break;
+
+	case VK_LEFT:
+		automaticChart.RightOffset();
+		TresholdWindow::Instance().UpdateTresholdGrid();
+		break;
+	}
 }

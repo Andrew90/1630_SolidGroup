@@ -23,15 +23,7 @@
 
 
 #include "DebugMess.h"
-#ifdef XDEBUG
-#define xprint debug.print(__FUNCTION__);
-#define dprint debug.print
-#define d_mess(x)
-#define x_mess debug.print
-#else
-#define xprint
-#define dprint
-#endif
+
 //------------------------------------------------------------------------
 void MainWindow::operator()(TSize &m)
 {

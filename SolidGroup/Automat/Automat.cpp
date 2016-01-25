@@ -15,15 +15,6 @@
 #include "SaveLoadDates.h"
 #include "DebugMess.h"
 #include "AdditionalBase.h"
-#ifdef XDEBUG
-#define xprint debug.print(__FUNCTION__);
-#define dprint debug.print
-#define d_mess(x)
-#define x_mess debug.print
-#else
-#define xprint
-#define dprint
-#endif
 //-------------------------------------------
 static const unsigned UNIT_ON = 2;
 static const unsigned TUBE_IN_UNIT = 1;
@@ -41,7 +32,6 @@ void StartStep(unsigned input)
 			topLabelViewer.SetMessage(L"<ff0000>—бор данных");
 			solidData.Clear();
 			l502SolidGroup.Start();
-			xprint
 			ptr = ReadDate;
 			CommunicationTCP::Result = 0;
 			if(Singleton<AdditionalParametersTable>::Instance().items.get<MarkPaint>().value)
@@ -142,8 +132,7 @@ void ComputeStep(unsigned )
 		StoreDataFile();
 	}
 	ptr = StartStep;
-	xprint		
-		(*Automat::dataChanged)();
+	(*Automat::dataChanged)();
 	StoredData::Instance().Inc();
 }
 

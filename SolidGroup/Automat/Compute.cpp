@@ -9,15 +9,7 @@
 #include "SaveLoadDates.h"
 #include "Templates.hpp"
 #include "DebugMess.h"
-#ifdef XDEBUG
-#define xprint debug.print(__FUNCTION__);
-#define dprint debug.print
-#define d_mess(x)
-#define x_mess debug.print
-#else
-#define xprint
-#define dprint
-#endif
+
 
 Compute::Compute()
 	: frequency502(Singleton<SolenoidParametersTable>::Instance().items.get<Frequency502>().value)

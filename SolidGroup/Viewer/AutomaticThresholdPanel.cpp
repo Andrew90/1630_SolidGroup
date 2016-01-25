@@ -7,7 +7,7 @@
 #include "MenuApi.h"
 #include "Pass.h"
 #include "AutomaticThresholdsWindow.h"
-#include "GlobalHandlers.h"
+#include "..\GlobalHandlers\GlobalHandlers.h"
 
 #include "DebugMess.h"
 

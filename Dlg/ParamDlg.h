@@ -6,37 +6,6 @@
 #include "ParamDlg.hpp"
 #include "Pass.h"
 #include "DebugMess.h"
-#ifdef XDEBUG
-#define dprint debug.print
-#else	
-#define  dprint
-#endif
-#if 0
-class ParametersDialog
-{
-	static LRESULT CALLBACK Proc(HWND , UINT , WPARAM , LPARAM );
-protected:	
-	virtual bool OkBtn(HWND) = 0;
-	virtual bool CancelBtn(HWND);
-	virtual void Init(HWND h, int &width, int &height) = 0;
-	virtual void Command(TCommand &);
-public:
-	bool Do(HWND hWnd, wchar_t *title);
-};
-
-class ParametersDialogOkCancelDelete
-{
-	static LRESULT CALLBACK Proc(HWND , UINT , WPARAM , LPARAM );
-protected:	
-	virtual bool OkBtn(HWND) = 0;
-	virtual bool DeleteBtn(HWND);
-	virtual bool CancelBtn(HWND);
-	virtual void Init(HWND h, int &width, int &height) = 0;
-	virtual void Command(TCommand &){}
-public:
-	bool Do(HWND hWnd, wchar_t *title);
-};
-#endif
 //-------------------------------------------------------------------------------------------------------------------------------
 template<class T>struct DlgItem;
 bool TemplDlg_Do(HWND hWnd, wchar_t *title, DLGPROC proc, LPARAM param);
@@ -59,14 +28,27 @@ template<class O, class P>struct __make_btn__
 		p->offs += O::width + 10;
 	}
 };
+template<class O, class P>struct TemplDialogCtlColorEdit 
+{
+	bool operator()(O *, P *)
+	{
+		zprint("");
+		return true;
+	}
+};
 template<class TableParam, class ButtonsList = TL::MkTlst<OkBtn, CancelBtn>::Result>class TemplDialog
 {
 	struct __command_data__
 	{
-		TMessage &mes;
+		//TMessage &mes;
+		HWND hwnd;
+		unsigned id;
 		TemplDialog &owner;
-		__command_data__(TMessage &mes, TemplDialog &owner)
-			: mes(mes)
+	//	__command_data__(TMessage &mes, TemplDialog &owner)
+		__command_data__(HWND hwnd, unsigned id, TemplDialog &owner)
+			//: mes(mes)
+			: hwnd(hwnd)
+			, id(id)
 			, owner(owner)
 		{}
 	};
@@ -74,9 +56,11 @@ template<class TableParam, class ButtonsList = TL::MkTlst<OkBtn, CancelBtn>::Res
 	{
 		bool operator()(O *o, P *p)
 		{
-			if(p->mes.wParam == O::ID)
+			//if(p->mes.wParam == O::ID)
+			if(p->id == O::ID)
 			{
-				o->BtnHandler(p->owner, p->mes.hwnd);
+				//o->BtnHandler(p->owner, p->mes.hwnd);
+				o->BtnHandler(p->owner, p->hwnd);
 				return false;
 			}
 			return true;
@@ -111,7 +95,7 @@ template<class TableParam, class ButtonsList = TL::MkTlst<OkBtn, CancelBtn>::Res
 		{
 			TemplDialog *e = (TemplDialog *)GetWindowLong(h, GWL_USERDATA);	
 			if(!TL::find<ButtonsList, __command__>()(&e->buttons
-				, &__command_data__((TMessage &)h, *e))
+				, &__command_data__(h, wParam, *e))
 				) return TRUE;
 		}
 		break;
@@ -137,7 +121,7 @@ template<class TableParam, class ButtonsList = TL::MkTlst<OkBtn, CancelBtn>::Res
 			int y = r.top +(r.bottom - r.top - height) / 2;
 			MoveWindow(h, x, y, width, height, FALSE);
 		}
-		return TRUE;
+		return TRUE;	
 	}
 	return FALSE;
 	}
@@ -195,7 +179,7 @@ template<class Table>struct TestPassword
 {
 	bool operator()(HWND h)
 	{
-		return (1 == TL::TypeInMultyList<ParametersBase::multy_type_list, Table>::Result::value)
+		return (0 != TL::TypeInMultyList<ParametersBase::multy_type_list, Table>::Result::value)
 			? TypesizePasswordDlg().Do(h)
 			: OptionPasswordDlg().Do(h);
 	}

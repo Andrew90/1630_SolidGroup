@@ -65,7 +65,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>StoredData;ChangeOut;CommunicationTube;../tcp;../Grid;../Base;../L502_SolidGroup;../1730;Dates;Viewer;..\Graphics;1730;DebugApp;ArchiveEvents;Automat;Messages;..\Dlg;DlgOptions;../debug_tools;window;../window_tool;../base;../templates;AppBase;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;..\GlobalHandlers\;StoredData;ChangeOut;CommunicationTube;../tcp;../Grid;../Base;../L502_SolidGroup;../1730;Dates;Viewer;..\Graphics;1730;DebugApp;ArchiveEvents;Automat;Messages;..\Dlg;DlgOptions;../debug_tools;window;../window_tool;../base;../templates;AppBase</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -250,7 +250,9 @@
     <ClCompile Include="Viewer\TresholdsGridViewer.cpp" />
     <ClCompile Include="Viewer\ZonesViewer.cpp" />
     <ClCompile Include="Window\AutomaticDlg.cpp" />
-    <ClCompile Include="Window\AutomaticThresholdsWindow.cpp" />
+    <ClCompile Include="Window\AutomaticThresholdsWindow.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">GlobalHandlers;StoredData;ChangeOut;CommunicationTube;../tcp;../Grid;../Base;../L502_SolidGroup;../1730;Dates;Viewer;..\Graphics;1730;DebugApp;ArchiveEvents;Automat;Messages;..\Dlg;DlgOptions;../debug_tools;window;../window_tool;../base;../templates;AppBase;</AdditionalIncludeDirectories>
+    </ClCompile>
     <ClCompile Include="Window\MainWindow.cpp" />
     <ClCompile Include="Window\MainWindowToolBar.cpp" />
     <ClCompile Include="Window\SelectTypeSize.cpp" />

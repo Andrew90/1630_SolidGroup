@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "TresholdPanelViewer.h"
 #include "TresholdWindow.h"
+#include "..\GlobalHandlers\GlobalHandlers.h"
 #include "MenuApi.h"
 #include <algorithm>
 #include <string>
 #include <stdio.h>
 #include "EmptyWindow.h"
 #include "AppBase.h"
-#include "GlobalHandlers.h"
+
 
 #include "DebugMess.h"
 #include "SolidData.h"

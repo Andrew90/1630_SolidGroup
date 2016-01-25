@@ -93,7 +93,7 @@ template<class O, class P>struct __ok_btn__
 	void operator()(O *o, P *p)
 	{
 		dprint("%s", __FUNCTION__);
-        o->value.value =  __data_from_widget__<O, typename TL::Inner<O>::Result::type_value>()(*o);//->hWnd);
+        o->value.value =  __data_from_widget__<O, typename TL::Inner<O>::Result::type_value>()(*o);
 		p->update.set<typename TL::Inner<O>::Result>(o->value.value);
 	}
 };

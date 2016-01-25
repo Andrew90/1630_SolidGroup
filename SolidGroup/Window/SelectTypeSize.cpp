@@ -8,7 +8,7 @@
 #include "Pass.h"
 #include "Dialogs.h"
 #include "Corel.h"
-#include "GlobalHandlers.h"
+#include "..\GlobalHandlers\GlobalHandlers.h"
 extern HINSTANCE hInstance;
 //--------------------------------------------------------------
 void FillSelect(HWND hWnd)

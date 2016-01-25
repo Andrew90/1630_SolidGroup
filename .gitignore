@@ -36,4 +36,4 @@ _ReSharper*/
 *.opensdf
 ipch/
 *.sdf
-*.sdf
+!lib/l502api.lib

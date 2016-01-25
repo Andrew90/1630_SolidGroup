@@ -94,6 +94,9 @@
     <Filter Include="DlgOptions\MiddleWindow">
       <UniqueIdentifier>{f3f6beb7-ab75-430e-90e5-325a4dbec1af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="lib">
+      <UniqueIdentifier>{57bdc3d1-8572-4f94-9a93-2bd56b179dda}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -622,5 +625,10 @@
     <ResourceCompile Include="SolidGroup.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\l502api.lib">
+      <Filter>lib</Filter>
+    </Library>
   </ItemGroup>
 </Project>

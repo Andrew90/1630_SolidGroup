@@ -263,6 +263,9 @@
   <ItemGroup>
     <ResourceCompile Include="SolidGroup.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\l502api.lib" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

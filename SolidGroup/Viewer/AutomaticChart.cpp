@@ -109,13 +109,15 @@ void AutomaticChart::RightOffset()
 struct DataBufferXX: Compute::Data
 {
 public:
-	double dataBuffer(int i)
+	bool dataBuffer(int i, double &d)
 	{
-		return solidData.dataBuffer[i];
+		d = solidData.dataBuffer[i];
+		return true;
 	}
-	double referenceBuffer(int i)
+	bool referenceBuffer(int i, double &d)
 	{
-		return solidData.referenceBuffer[i];
+		d = solidData.referenceBuffer[i];
+		return true;
 	}
 };
 void AutomaticChart::FrameBorder()
@@ -133,7 +135,7 @@ void AutomaticChart::FrameBorder()
 	{
 	int (&offsets)[8] = AutomaticThresholdsWindow::Instance().automaticOptionsTresholds.tresholds;
 	double inputs[1024] = {};
-	int length;
+
 	DataBufferXX dataBuff;
 
 	if(compute.SubCompute(
@@ -142,12 +144,12 @@ void AutomaticChart::FrameBorder()
 		, stop + 10
 		, dataBuff
 		, inputs
-		, length
 		))
 	{
 	corel.Compute();
 	wchar_t *s = label.buffer;
 	wsprintf(s, L"<ff>");
+	double length = compute.frequency502 / (2 * 2 * compute.frequenctGenerator);
 	for(int i = 0; i < dimention_of(corel.inputItem.elements); ++i)
 	{
 		int x = start + int((double)length * offsets[i] / 100.0);

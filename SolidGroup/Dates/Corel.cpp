@@ -12,16 +12,16 @@
 
 
 DEFINE_PARAM(ClassTube, int, 1)
-DEFINE_PARAM(TypeSize, int, 1)
-template<int >struct XParam;
+	DEFINE_PARAM(TypeSize, int, 1)
+	template<int >struct XParam;
 DEFINE_PARAM_NUM(XParam, 1, double, 1)
-DEFINE_PARAM_NUM(XParam, 2, double, 1)
-DEFINE_PARAM_NUM(XParam, 3, double, 1)
-DEFINE_PARAM_NUM(XParam, 4, double, 1)
-DEFINE_PARAM_NUM(XParam, 5, double, 1)
-DEFINE_PARAM_NUM(XParam, 6, double, 1)
-DEFINE_PARAM_NUM(XParam, 7, double, 1)
-DEFINE_PARAM_NUM(XParam, 8, double, 1)
+	DEFINE_PARAM_NUM(XParam, 2, double, 1)
+	DEFINE_PARAM_NUM(XParam, 3, double, 1)
+	DEFINE_PARAM_NUM(XParam, 4, double, 1)
+	DEFINE_PARAM_NUM(XParam, 5, double, 1)
+	DEFINE_PARAM_NUM(XParam, 6, double, 1)
+	DEFINE_PARAM_NUM(XParam, 7, double, 1)
+	DEFINE_PARAM_NUM(XParam, 8, double, 1)
 
 struct NameFile
 {
@@ -39,7 +39,7 @@ struct NameFile
 struct SolidTubeTable
 {
 	typedef TL::MkTlst<
-		  XParam<1>
+		XParam<1>
 		, XParam<2>
 		, XParam<3>
 		, XParam<4>
@@ -71,14 +71,14 @@ struct Name
 };
 
 DEFINE_PARAM(ClassTubeID, int, 1)
-DEFINE_PARAM(TypeSizeID, int, 1)
-DEFINE_PARAM(CommunicationID, int, 1)
+	DEFINE_PARAM(TypeSizeID, int, 1)
+	DEFINE_PARAM(CommunicationID, int, 1)
 
 struct TypeSizeTable
 {
 	typedef TL::MkTlst<
-		 TypeSizeID
-		  , Name
+		TypeSizeID
+		, Name
 	>::Result items_list;
 	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
@@ -88,8 +88,8 @@ struct TypeSizeTable
 struct ClassTubeTable
 {
 	typedef TL::MkTlst<
-		 CommunicationID
-		 , Name
+		CommunicationID
+		, Name
 	>::Result items_list;
 	typedef NullType unique_list;
 	typedef TL::Factory<items_list> TItems;
@@ -123,135 +123,145 @@ Corel::~Corel()
 {
 	Clear();
 }
-struct del
+struct DelSolid
 {
 	void operator()(Corel::SolidTubeItem *o){delete o;}
 };
+//struct DelClass
+//{
+//	void operator()(Corel::TClassTubeItem::value_type &o)
+//	{
+//		delete o.second;
+//	}
+//};
 void Corel::Clear()
 {
-	std::for_each(solidTubeItem.begin(), solidTubeItem.end(), del());
+	std::for_each(solidTubeItem.begin(), solidTubeItem.end(), DelSolid());
 	solidTubeItem.clear();
+
+	//std::for_each(classTubeItem.begin(), classTubeItem.end(), DelClass());
+	//classTubeItem.clear();
 }
 
 namespace __corel__
 {	
-template<class O, class P>struct __get__
-{
-	typedef typename O::__template_must_be_overridded__ noused;
-};
-template<class P>struct __get__<ClassTube, P>
-{
-	typedef ClassTube O;
-	void operator()(O *o, P *p)
+	template<class O, class P>struct __get__
 	{
-		p->classTube = o->value;
-	}
-};
-template<class P>struct __get__<TypeSize, P>
-{
-	typedef TypeSize O;
-	void operator()(O *o, P *p)
+		typedef typename O::__template_must_be_overridded__ noused;
+	};
+	template<class P>struct __get__<ClassTube, P>
 	{
-		p->typeSize = o->value;
-	}
-};
-template<int N, class P>struct __get__<XParam<N>, P>
-{
-	typedef XParam<N> O;
-	void operator()(O *o, P *p)
+		typedef ClassTube O;
+		void operator()(O *o, P *p)
+		{
+			p->classTube = o->value;
+		}
+	};
+	template<class P>struct __get__<TypeSize, P>
 	{
-		p->elements[N - 1] = o->value;
-	}
-};
-template<class P>struct __get__<NameFile, P>
-{
-	typedef NameFile O;
-	void operator()(O *o, P *p)
+		typedef TypeSize O;
+		void operator()(O *o, P *p)
+		{
+			p->typeSize = o->value;
+		}
+	};
+	template<int N, class P>struct __get__<XParam<N>, P>
 	{
-		p->fileName = o->value;
-	}
-};
-template<class O, class P>struct __set__
-{
-	typedef typename O::__template_must_be_overridded__ noused;
-};
-template<class P>struct __set__<ClassTube, P>
-{
-	typedef ClassTube O;
-	void operator()(O *o, P *p)
+		typedef XParam<N> O;
+		void operator()(O *o, P *p)
+		{
+			p->elements[N - 1] = o->value;
+		}
+	};
+	template<class P>struct __get__<NameFile, P>
 	{
-		o->value = p->classTube;
-	}
-};
-template<class P>struct __set__<TypeSize, P>
-{
-	typedef TypeSize O;
-	void operator()(O *o, P *p)
+		typedef NameFile O;
+		void operator()(O *o, P *p)
+		{
+			p->fileName = o->value;
+		}
+	};
+	template<class O, class P>struct __set__
 	{
-		o->value = p->typeSize;
-	}
-};
-template<int N, class P>struct __set__<XParam<N>, P>
-{
-	typedef XParam<N> O;
-	void operator()(O *o, P *p)
+		typedef typename O::__template_must_be_overridded__ noused;
+	};
+	template<class P>struct __set__<ClassTube, P>
 	{
-		o->value = p->elements[N - 1];
-	}
-};
-template<class P>struct __set__<NameFile, P>
-{
-	typedef NameFile O;
-	void operator()(O *o, P *p)
+		typedef ClassTube O;
+		void operator()(O *o, P *p)
+		{
+			o->value = p->classTube;
+		}
+	};
+	template<class P>struct __set__<TypeSize, P>
 	{
-		o->value = (wchar_t *)p->fileName.c_str();
-	}
-};
-struct __set_element_data__
-{
-	int classTube;
-    int typeSize;
-	double (&param)[8];
-	std::wstring &file;
-	__set_element_data__(int ct, int ts, double (&p)[8], std::wstring &f)
-		: classTube(ct)
-		, typeSize(ts)
-		, param(p)
-		, file(f)
-	{}
-};
-template<class O, class P>struct __set_element__;
-template<class P>struct __set_element__<ClassTube, P>
-{
-	typedef ClassTube O;
-	void operator()(O *o, P *p)
+		typedef TypeSize O;
+		void operator()(O *o, P *p)
+		{
+			o->value = p->typeSize;
+		}
+	};
+	template<int N, class P>struct __set__<XParam<N>, P>
 	{
-		o->value = p->classTube;
-	}
-};
-template<class P>struct __set_element__<TypeSize, P>
-{
-	typedef TypeSize O;
-	void operator()(O *o, P *p)
+		typedef XParam<N> O;
+		void operator()(O *o, P *p)
+		{
+			o->value = p->elements[N - 1];
+		}
+	};
+	template<class P>struct __set__<NameFile, P>
 	{
-		o->value = p->typeSize;
-	}
-};
-template<int N, class P>struct __set_element__<XParam<N>, P>
-{
-	typedef XParam<N> O;
-	void operator()(O *o, P *p)
+		typedef NameFile O;
+		void operator()(O *o, P *p)
+		{
+			o->value = (wchar_t *)p->fileName.c_str();
+		}
+	};
+	struct __set_element_data__
 	{
-		o->value = p->param[N - 1];
-	}
-};
-template<class P>struct __set_element__<NameFile, P>
-{
-	void operator()(NameFile *o, P *p)
+		int classTube;
+		int typeSize;
+		double (&param)[8];
+		std::wstring &file;
+		__set_element_data__(int ct, int ts, double (&p)[8], std::wstring &f)
+			: classTube(ct)
+			, typeSize(ts)
+			, param(p)
+			, file(f)
+		{}
+	};
+	template<class O, class P>struct __set_element__;
+	template<class P>struct __set_element__<ClassTube, P>
 	{
-		o->value = (wchar_t *)p->file.c_str();
-	}
-};
+		typedef ClassTube O;
+		void operator()(O *o, P *p)
+		{
+			o->value = p->classTube;
+		}
+	};
+	template<class P>struct __set_element__<TypeSize, P>
+	{
+		typedef TypeSize O;
+		void operator()(O *o, P *p)
+		{
+			o->value = p->typeSize;
+		}
+	};
+	template<int N, class P>struct __set_element__<XParam<N>, P>
+	{
+		typedef XParam<N> O;
+		void operator()(O *o, P *p)
+		{
+			o->value = p->param[N - 1];
+		}
+	};
+	template<class P>struct __set_element__<NameFile, P>
+	{
+		void operator()(NameFile *o, P *p)
+		{
+			o->value = (wchar_t *)p->file.c_str();
+		}
+	};
 }
 void Corel::Init()
 {
@@ -269,7 +279,6 @@ void Corel::Init()
 		{
 			ClassTubeItem *i = new ClassTubeItem;
 			int key = rec->Fields->GetItem(L"ID")->GetValue();
-			i->communicationID = rec->Fields->GetItem(CommunicationID().name())->GetValue();
 			i->Name = _bstr_t(rec->Fields->GetItem(Name().name())->GetValue());
 			classTubeItem[key] = i;
 			rec->MoveNext(); 
@@ -284,12 +293,8 @@ void Corel::Init()
 			Select<ParametersTable>(base).Execute(rec);
 			while (!rec->EndOfFile) 
 			{
-			///	TypeSizeItem *i = new TypeSizeItem;
-				//int key = rec->Fields->GetItem(L"ID")->GetValue();
-			//	i->Name = _bstr_t(rec->Fields->GetItem(NameParam().name())->GetValue());
-				//typeSizeItem[key] = i;
 				NewTypeSizeItem(
-					 rec->Fields->GetItem(L"ID")->GetValue()
+					rec->Fields->GetItem(L"ID")->GetValue()
 					, _bstr_t(rec->Fields->GetItem(NameParam().name())->GetValue())
 					);
 				rec->MoveNext(); 
@@ -319,7 +324,7 @@ void Corel::LoadFromBase(int typeSize)
 		ADODB::_RecordsetPtr rec;
 		typedef Select<SolidTubeTable> sel;
 		sel(base).Execute(rec);
-		
+
 		SolidTubeTable table;
 		while (!rec->EndOfFile) 
 		{
@@ -349,20 +354,6 @@ void Corel::InsertElement(SolidTubeItem &item)
 	{
 		SolidTubeTable table;
 		TL::foreach<SolidTubeTable::items_list, __corel__::__set__>()(&table.items, &item);
-		/*
-		typedef TL::MkTlst<
-		  XParam<1>
-		, XParam<2>
-		, XParam<3>
-		, XParam<4>
-		, XParam<5>
-		, XParam<6>
-		, XParam<7>
-		, XParam<8>
-		, ClassTube
-		, TypeSize
-	>::Result items_list;
-	*/
 		int id = Select<SolidTubeTable>(base).eq_all<SolidTubeTable::items_list>(&table.items).Execute();
 		if(0 == id)
 		{
@@ -371,7 +362,7 @@ void Corel::InsertElement(SolidTubeItem &item)
 				wchar_t path[1024];
 				GetModuleFileName(0, path, 1024);
 				PathRemoveFileSpec(path);
-				
+
 				wsprintf(&path[wcslen(path)], L"\\ConfigThresholds\\%s\\%s\\"
 					, (wchar_t *)corel.typeSizeItem[item.typeSize]->Name.c_str()
 					, corel.ClassTubeName());
@@ -427,17 +418,17 @@ void Corel::InsertListData(std::list<Data> &lst)
 			wsprintf(buf, L"%s", i->Name.c_str());
 			n.value = buf;
 			int idClassTube = Select<ClassTubeTable>(base).eq<Name>(n.value).Execute();
-			
+
 			SolidTubeTable table;
 			TL::foreach<SolidTubeTable::items_list, __corel__::__set_element__>()(
 				&table.items
 				, &__corel__::__set_element_data__(
-				       idClassTube
-					   , Singleton<CurrentParametersTable>::Instance().items.get<CurrentID>().value
-				       , i->tresholds
-					   , i->File
-				  )
-			);
+				idClassTube
+				, Singleton<CurrentParametersTable>::Instance().items.get<CurrentID>().value
+				, i->tresholds
+				, i->File
+				)
+				);
 			int id = Select<SolidTubeTable>(base).eq_all<SolidTubeTable::items_list>(&table.items).Execute();
 			if(0 == id)
 			{
@@ -485,7 +476,7 @@ void Corel::RemoveElement(SolidTubeItem &item)
 	{
 		SolidTubeTable table;
 		TL::foreach<SolidTubeTable::items_list, __corel__::__set__>()(&table.items, &item);
-		
+
 		if(Delete<SolidTubeTable>(base).eq_all<SolidTubeTable::items_list>(&table.items).Execute() && 0 == Select<SolidTubeTable>(base).eq_all<SolidTubeTable::items_list>(&table.items).Execute())
 		{
 			wchar_t path[1024];
@@ -499,7 +490,7 @@ void Corel::RemoveElement(SolidTubeItem &item)
 				);
 			_wremove(path);
 			solidTubeItem.erase(
-               std::remove_if(solidTubeItem.begin(), solidTubeItem.end(), rem_(&item)), solidTubeItem.end());
+				std::remove_if(solidTubeItem.begin(), solidTubeItem.end(), rem_(&item)), solidTubeItem.end());
 		}
 	}
 }
@@ -526,7 +517,6 @@ struct DataInc
 	double data;
 	int counter;
 };
-#if 1
 struct Compute_Compare
 {
 	Corel::SolidTubeItem &vec;
@@ -544,7 +534,7 @@ struct Compute_Compare
 			t += vec.elements[i] * item->elements[i];
 		}
 		item->correlation = t / (vec.root * item->root); 
-		dprint("corel %f class %d", item->correlation, item->classTube);
+
 		if(item->correlation > correlation)
 		{
 			correlation = item->correlation;
@@ -563,53 +553,8 @@ void Corel::Compute()
 		root += a * a;
 	}
 	inputItem.root = sqrt(root);
-	Compute_Compare cc(inputItem);
-	std::for_each(solidTubeItem.begin(), solidTubeItem.end(), cc);
+	std::for_each(solidTubeItem.begin(), solidTubeItem.end(), Compute_Compare(inputItem));
 }
-#else
-struct Compute_Compare
-{
-	Corel::SolidTubeItem &vec;
-	double correlation;
-	Compute_Compare(Corel::SolidTubeItem &vec)
-		: vec(vec)
-		, correlation(0) 
-	{
-	}
-	void operator()(Corel::SolidTubeItem *item)
-	{
-		double t0 = 0;
-		double t1 = 0;
-		for(int i = 0; i < dimention_of(item->elements); ++i)
-		{
-			double _0 = vec.elements[i] - item->elements[i];
-			t0 += _0 * _0;
-			double _1 = vec.elements[i] + item->elements[i];
-			t1 += _1 * _1;
-		}
-		if(t1 > 0)
-		{
-			item->correlation = 1.0 - sqrt(t0) / sqrt(t1);
-		}
-		else
-		{
-			item->correlation = 0;
-		}
-		if(item->correlation > correlation)
-		{
-			correlation = item->correlation;
-			vec.classTube = item->classTube;
-			vec.correlation = item->correlation;
-		}
-	}
-};
-
-void Corel::Compute()
-{
-	Compute_Compare cc(inputItem);
-	std::for_each(solidTubeItem.begin(), solidTubeItem.end(), cc);
-}
-#endif
 //------------------------------------------------------------------------------------
 int Corel::InsertGroupeName(wchar_t *s, int communicationTCP)
 {

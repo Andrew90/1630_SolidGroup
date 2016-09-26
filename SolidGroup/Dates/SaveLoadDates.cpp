@@ -97,9 +97,9 @@ void StoreDataFile()
 #pragma message("изменил формирование названия файла")
 	 //
 	 wchar_t *nameParam = Singleton<ParametersTable>::Instance().items.get<NameParam>().value;
-	 int numberTube = StoredData::Instance().Current();
-	 wsprintf(&path[wcslen(path)], L"%06d_%s_%s_%02d%02d%02d_%02d%02d%02d.dat"
-	     , numberTube
+	// int numberTube = StoredData::Instance().Current();
+	 wsprintf(&path[wcslen(path)], L"%s_%s_%02d%02d%02d_%02d%02d%02d.dat"
+	 //    , numberTube
 		 , nameParam
 		 , corel.ClassTubeName()
 		 , now->tm_year - 100

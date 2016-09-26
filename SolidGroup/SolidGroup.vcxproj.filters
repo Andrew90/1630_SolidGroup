@@ -61,9 +61,6 @@
     <Filter Include="Graphics">
       <UniqueIdentifier>{36d9bb0e-de0f-4af9-944f-af3940e4a887}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Devices\L502_SolidGroup">
-      <UniqueIdentifier>{f37c8f11-e605-4667-91f7-fbd809807153}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Grid">
       <UniqueIdentifier>{4047e28c-82f0-48e6-b92a-b6176ab04281}</UniqueIdentifier>
     </Filter>
@@ -96,6 +93,9 @@
     </Filter>
     <Filter Include="lib">
       <UniqueIdentifier>{57bdc3d1-8572-4f94-9a93-2bd56b179dda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Devices\502">
+      <UniqueIdentifier>{f37c8f11-e605-4667-91f7-fbd809807153}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -277,13 +277,10 @@
       <Filter>Window</Filter>
     </ClInclude>
     <ClInclude Include="..\L502_SolidGroup\L502SolidGroup.h">
-      <Filter>Devices\L502_SolidGroup</Filter>
+      <Filter>Devices\502</Filter>
     </ClInclude>
     <ClInclude Include="Dates\ChartData.h">
       <Filter>Dates</Filter>
-    </ClInclude>
-    <ClInclude Include="Automat\Automat.h">
-      <Filter>Automat</Filter>
     </ClInclude>
     <ClInclude Include="Automat\Compute.h">
       <Filter>Dates</Filter>
@@ -322,13 +319,13 @@
       <Filter>Window\Tresholds</Filter>
     </ClInclude>
     <ClInclude Include="..\L502_SolidGroup\l502api.h">
-      <Filter>Devices\L502_SolidGroup</Filter>
+      <Filter>Devices\502</Filter>
     </ClInclude>
     <ClInclude Include="..\L502_SolidGroup\lpcie.h">
-      <Filter>Devices\L502_SolidGroup</Filter>
+      <Filter>Devices\502</Filter>
     </ClInclude>
     <ClInclude Include="..\L502_SolidGroup\pstdint.h">
-      <Filter>Devices\L502_SolidGroup</Filter>
+      <Filter>Devices\502</Filter>
     </ClInclude>
     <ClInclude Include="Dates\SaveLoadDates.h">
       <Filter>Dates</Filter>
@@ -388,7 +385,7 @@
       <Filter>Window\Automatic</Filter>
     </ClInclude>
     <ClInclude Include="..\L502_SolidGroup\SolenoidParametersTableDlg.h">
-      <Filter>Devices\L502_SolidGroup</Filter>
+      <Filter>Devices\502</Filter>
     </ClInclude>
     <ClInclude Include="GlobalHandlers\GlobalHandlers.h">
       <Filter>GlobalHandlers</Filter>
@@ -398,6 +395,21 @@
     </ClInclude>
     <ClInclude Include="AppBase\BaseDefine.h">
       <Filter>AppBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\L502_SolidGroup\x502api.h">
+      <Filter>Devices\502</Filter>
+    </ClInclude>
+    <ClInclude Include="Automat\Automat.h">
+      <Filter>Automat</Filter>
+    </ClInclude>
+    <ClInclude Include="Dates\SolidCounterData.h">
+      <Filter>Dates</Filter>
+    </ClInclude>
+    <ClInclude Include="Viewer\GridCounter.h">
+      <Filter>Window\Viewer</Filter>
+    </ClInclude>
+    <ClInclude Include="StoredData\SolidCounter.h">
+      <Filter>StoredData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -507,16 +519,13 @@
       <Filter>Window</Filter>
     </ClCompile>
     <ClCompile Include="..\L502_SolidGroup\L502SolidGroup.cpp">
-      <Filter>Devices\L502_SolidGroup</Filter>
+      <Filter>Devices\502</Filter>
     </ClCompile>
     <ClCompile Include="Dates\SolidData.cpp">
       <Filter>Dates</Filter>
     </ClCompile>
     <ClCompile Include="Dates\ChartData.cpp">
       <Filter>Dates</Filter>
-    </ClCompile>
-    <ClCompile Include="Automat\Automat.cpp">
-      <Filter>Automat</Filter>
     </ClCompile>
     <ClCompile Include="Automat\Compute.cpp">
       <Filter>Dates</Filter>
@@ -612,13 +621,31 @@
       <Filter>Window\Automatic</Filter>
     </ClCompile>
     <ClCompile Include="..\L502_SolidGroup\SolenoidParametersTableDlg.cpp">
-      <Filter>Devices\L502_SolidGroup</Filter>
+      <Filter>Devices\502</Filter>
     </ClCompile>
     <ClCompile Include="GlobalHandlers\GlobalHandlers.cpp">
       <Filter>GlobalHandlers</Filter>
     </ClCompile>
     <ClCompile Include="AppBase\AdditionalBase.cpp">
       <Filter>AppBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Automat\Automat.cpp">
+      <Filter>Automat</Filter>
+    </ClCompile>
+    <ClCompile Include="Dates\SolidCounterData.cpp">
+      <Filter>Dates</Filter>
+    </ClCompile>
+    <ClCompile Include="Viewer\GridCounter.cpp">
+      <Filter>Window\Viewer</Filter>
+    </ClCompile>
+    <ClCompile Include="StoredData\SolidCounter.cpp">
+      <Filter>StoredData</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgOptions\AdcInputPortsDlg.cpp">
+      <Filter>DlgOptions</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgOptions\DInputPortsDlg.cpp">
+      <Filter>Dlg</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -627,7 +654,10 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="lib\l502api.lib">
+    <Library Include="..\lib\x502api.lib">
+      <Filter>lib</Filter>
+    </Library>
+    <Library Include="..\lib\e502api.lib">
       <Filter>lib</Filter>
     </Library>
   </ItemGroup>

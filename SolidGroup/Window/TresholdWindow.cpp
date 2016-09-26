@@ -39,7 +39,7 @@ void TresholdWindow::operator()(TGetMinMaxInfo &m)
 unsigned TresholdWindow::operator()(TCreate &m)
 {
 	Menu<TresholdsWindowSpace::MainMenu>().Init(m.hwnd);
-	grid.Create(m, &gridViewer);
+	grid.Create(m.hwnd, &gridViewer);
 	tresholdPanelViewer.hWnd = CreateChildWindow(m.hwnd, (WNDPROC)&Viewer<TresholdPanelViewer>::Proc, L"TresholdPanelViewer", &tresholdPanelViewer);
 	return 0;
 }

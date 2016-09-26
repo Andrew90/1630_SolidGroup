@@ -31,14 +31,25 @@ void SolidData::Clear()
 {
 	currentOffset = 0;
 }
-void SolidData::SetData(double *data, int count)
+void SolidData::SetData(double *data, int count, int start)
 {
 	if(count <= 0) return;
 	if(currentOffset + count / 2 > MAX_ZONES_COUNT - 10) return;
-	for(int i = 0; i < count; i += 2)
+	double *a = &referenceBuffer[currentOffset];
+	double *b = &dataBuffer[currentOffset];
+	if(start)
 	{
-		referenceBuffer[currentOffset] = data[i];
-		dataBuffer[currentOffset] = data[i + 1];
+		b = &referenceBuffer[currentOffset];
+	    a = &dataBuffer[currentOffset];
+	}
+	for(double *i = data, *stop = &data[count]; i < stop;)
+	{
+		*a = *i;
+		++a;
+		++i;
+		*b = *i;
+		++b;
+		++i;
 		++currentOffset;
 	}
 }

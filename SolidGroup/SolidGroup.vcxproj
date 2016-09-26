@@ -49,13 +49,19 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>GlobalHandlers;StoredData;ChangeOut;CommunicationTube;../tcp;../Grid;../Base;../L502_SolidGroup;../1730;Dates;Viewer;..\Graphics;1730;DebugApp;ArchiveEvents;Automat;Messages;..\Dlg;DlgOptions;../debug_tools;window;../window_tool;../base;../templates;AppBase;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);GlobalHandlers;StoredData;ChangeOut;CommunicationTube;../tcp;../Grid;../Base;../L502_SolidGroup;../1730;Dates;Viewer;..\Graphics;1730;DebugApp;ArchiveEvents;Automat;Messages;..\Dlg;DlgOptions;../debug_tools;window;../window_tool;../base;../templates;AppBase</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../L502_SolidGroup;</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>$(ProjectDir)GenVer.bat</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Версия из Git</Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -105,6 +111,7 @@
     <ClInclude Include="..\L502_SolidGroup\lpcie.h" />
     <ClInclude Include="..\L502_SolidGroup\pstdint.h" />
     <ClInclude Include="..\L502_SolidGroup\SolenoidParametersTableDlg.h" />
+    <ClInclude Include="..\L502_SolidGroup\x502api.h" />
     <ClInclude Include="..\TCP\Client.h" />
     <ClInclude Include="..\TCP\CommonTcp.h" />
     <ClInclude Include="..\TCP\server.h" />
@@ -142,6 +149,7 @@
     <ClInclude Include="Dates\CounterTubes.h" />
     <ClInclude Include="Dates\SaveLoadDates.h" />
     <ClInclude Include="Dates\SetRemoveTresholds.h" />
+    <ClInclude Include="Dates\SolidCounterData.h" />
     <ClInclude Include="Dates\SolidData.h" />
     <ClInclude Include="Dates\UpdateMainChart.h" />
     <ClInclude Include="DlgOptions\Dialogs.h" />
@@ -150,6 +158,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SolidGroup.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StoredData\SolidCounter.h" />
     <ClInclude Include="StoredData\StoredData.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Viewer\AutomaticChart.h" />
@@ -158,6 +167,7 @@
     <ClInclude Include="Viewer\AutomaticThresholdPanel.h" />
     <ClInclude Include="Viewer\AutomaticTresholdChart.h" />
     <ClInclude Include="Viewer\FrameViewer.h" />
+    <ClInclude Include="Viewer\GridCounter.h" />
     <ClInclude Include="Viewer\SensorViewer.h" />
     <ClInclude Include="Viewer\SignalViewer.h" />
     <ClInclude Include="Viewer\SolidGridViewer.h" />
@@ -218,12 +228,15 @@
     <ClCompile Include="Dates\CounterTubes.cpp" />
     <ClCompile Include="Dates\SaveLoadDates.cpp" />
     <ClCompile Include="Dates\SetRemoveTresholds.cpp" />
+    <ClCompile Include="Dates\SolidCounterData.cpp" />
     <ClCompile Include="Dates\SolidData.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">L502_SolidGroup;Viewer;..\Graphics;1730;DebugApp;ArchiveEvents;Automat;Messages;..\Dlg;DlgOptions;../debug_tools;window;../window_tool;../base;../templates;AppBase;</AdditionalIncludeDirectories>
     </ClCompile>
     <ClCompile Include="Dates\UpdateMainChart.cpp" />
     <ClCompile Include="DlgOptions\AboutWindow.cpp" />
+    <ClCompile Include="DlgOptions\AdcInputPortsDlg.cpp" />
     <ClCompile Include="DlgOptions\CoordinateDlg.cpp" />
+    <ClCompile Include="DlgOptions\DInputPortsDlg.cpp" />
     <ClCompile Include="DlgOptions\InputOutputDlg.cpp" />
     <ClCompile Include="DlgOptions\ParamDlgL502.cpp" />
     <ClCompile Include="DlgOptions\ReferencePoints.cpp" />
@@ -235,12 +248,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StoredData\SolidCounter.cpp" />
     <ClCompile Include="StoredData\StoredData.cpp" />
     <ClCompile Include="Viewer\AutomaticChart.cpp" />
     <ClCompile Include="Viewer\AutomaticChartToolBar.cpp" />
     <ClCompile Include="Viewer\AutomaticThresholdPanel.cpp" />
     <ClCompile Include="Viewer\AutomaticTresholdChart.cpp" />
     <ClCompile Include="Viewer\FrameViewer.cpp" />
+    <ClCompile Include="Viewer\GridCounter.cpp" />
     <ClCompile Include="Viewer\SensorViewer.cpp" />
     <ClCompile Include="Viewer\SignalViewer.cpp" />
     <ClCompile Include="Viewer\SolidGridViewer.cpp" />
@@ -264,7 +279,8 @@
     <ResourceCompile Include="SolidGroup.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="lib\l502api.lib" />
+    <Library Include="..\lib\e502api.lib" />
+    <Library Include="..\lib\x502api.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -197,7 +197,7 @@ template<>struct TypeToInt<char>{static const ADODB::DataTypeEnum value = ADODB:
 template<>struct TypeToInt<unsigned char>{static const ADODB::DataTypeEnum value = ADODB::adTinyInt;};
 template<>struct TypeToInt<bool>{static const ADODB::DataTypeEnum value = ADODB::adBoolean;};
 template<>struct TypeToInt<double *>{static const ADODB::DataTypeEnum value = ADODB::adDouble;};
-template<>struct TypeToInt<COleDateTime>{static const ADODB::DataTypeEnum value = ADODB::adDBDate;};
+template<>struct TypeToInt<COleDateTime>{static const ADODB::DataTypeEnum value = ADODB::adDate;};
 template<>struct TypeToInt<SAFEARRAY *>{static const ADODB::DataTypeEnum value = ADODB::adArray;};
 
 template<int N>struct TypeToInt<Holder<N>>{static const ADODB::DataTypeEnum value = ADODB::adWChar;};

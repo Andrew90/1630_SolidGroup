@@ -21,9 +21,9 @@ public:
 	unsigned ReadOutput();
 };
 
-#ifndef DEBUG_ITEMS
-extern Device1730 device1730;
-#else
-extern Debug1730 device1730;
-#endif
+//#ifndef DEBUG_ITEMS
+//extern Device1730 device1730;
+//#else
+//extern Debug1730 device1730;
+//#endif
 

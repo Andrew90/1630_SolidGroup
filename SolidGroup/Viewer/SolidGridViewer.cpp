@@ -30,12 +30,12 @@ struct Group{};
 struct CommunicationID{};
 
 Z(Group     , 130, Группа прочности)
-Z(CommunicationID, 65, Номер TCP)
+//Z(CommunicationID, 65, Номер TCP)
 #undef Z
 
 typedef TL::MkTlst<
    Group     
-  , CommunicationID
+ // , CommunicationID
 >::Result ParameterNameList;
 //-----------------------------------------------------------------------------------
 template<class T>struct DataToGrid
@@ -69,27 +69,27 @@ template<>struct DataToGrid<Group>
 	}
 };
 //-----------------------------------------------------------------------------------------
-template<>struct DataToGrid<CommunicationID>
-{
-	wchar_t *operator()(unsigned i)
-	{
-		unsigned size = corel.classTubeItem.size();
-		if(size > 0 && size > i)
-		{
-			std::map<int, Corel::ClassTubeItem *>::const_iterator t = corel.classTubeItem.cbegin();
-			while(i > 0)
-			{
-				--i;
-				++t;
-			}
-			if(t->second)
-			{
-				return Wchar_from<int>(t->second->communicationID)();
-			}
-		}
-		return L"";
-	}
-};
+//template<>struct DataToGrid<CommunicationID>
+//{
+//	wchar_t *operator()(unsigned i)
+//	{
+//		unsigned size = corel.classTubeItem.size();
+//		if(size > 0 && size > i)
+//		{
+//			std::map<int, Corel::ClassTubeItem *>::const_iterator t = corel.classTubeItem.cbegin();
+//			while(i > 0)
+//			{
+//				--i;
+//				++t;
+//			}
+//			if(t->second)
+//			{
+//				return Wchar_from<int>(t->second->communicationID)();
+//			}
+//		}
+//		return L"";
+//	}
+//};
 //--------------------------------------------------------------------------------------
 /*
 template<class >struct ColorToGrid

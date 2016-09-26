@@ -13,6 +13,7 @@
 #include "SolenoidParametersTableDlg.h"
 #include "StoredData.h"
 #include "Pass.h"
+#include "SolidCounter.h"
 #include "MainWindowMenu.hpp"
 #include "MainWindowToolBar.h"
 
@@ -20,6 +21,9 @@
 #include "ClientTreshold.h"
 
 #include "UpdateMainChart.h"
+#include "SolidCounter.h"
+
+#include "../Resource.h"
 
 
 #include "DebugMess.h"
@@ -33,7 +37,7 @@ void MainWindow::operator()(TSize &m)
 
 	RECT rt;
 	GetWindowRect(hToolBar, &rt);
-    RECT rs;
+	RECT rs;
 	GetClientRect(hStatusWindow, &rs);
 	RECT r;
 	GetClientRect(m.hwnd, &r);	
@@ -43,14 +47,15 @@ void MainWindow::operator()(TSize &m)
 	MoveWindow(hCommunicationCheckBox, width, 52, 250, 20, TRUE);
 	MoveWindow(hStoredCheckBox, width, 68, 250, 20, TRUE);
 
-	
-    MoveWindow(hPaintCheckBox, width + 300, 52, 525, 20, TRUE);
+
+	MoveWindow(hPaintCheckBox, width + 300, 52, 525, 20, TRUE);
 	static const int topLabelHeight = 28;
 	int y = rt.bottom - rt.top - 1;
 	int t = (r.bottom - rs.bottom - rt.bottom + rt.top + 2 - topLabelHeight);
 	MoveWindow(topLabelViewer.hWnd , 0, y, r.right, topLabelHeight, true);
 	y += topLabelHeight;
 	MoveWindow(signalViewer.hWnd , 0, y, r.right, t, true);
+	MoveWindow(gridCounter.grid.hWnd, width + 400 + 30,  2, 145, rt.bottom - rt.top - 2 - 2, TRUE);
 }
 //------------------------------------------------------------------------
 void MainWindow::operator()(TCommand &m)
@@ -72,7 +77,7 @@ void MainWindow::operator()(TGetMinMaxInfo &m)
 void MainWindow::CommunicationRemoveUnitBtn(TCommand &m)
 {
 	bool b = BST_CHECKED == Button_GetCheck(m.hControl);
-    dprint(__FUNCTION__"checced %d", b);
+	dprint(__FUNCTION__"checced %d", b);
 	Singleton<DifferentOptionsTable>::Instance().items.get<CommunicationRemoveUnit>().value = b;
 	CBase base(ParametersBase().name());
 	if(base.IsOpen())
@@ -84,12 +89,12 @@ void MainWindow::CommunicationRemoveUnitBtn(TCommand &m)
 void MainWindow::PaintCheckBoxBtn(TCommand &m)
 {
 	bool b = BST_CHECKED == Button_GetCheck(m.hControl);
-    dprint(__FUNCTION__"checced %d", b);
+	dprint(__FUNCTION__"checced %d", b);
 	Singleton<AdditionalParametersTable>::Instance().items.get<MarkPaint>().value = b;
-	if(!b)
-	{
-		device1730.Write(0);
-	}
+	//if(!b)
+	//{
+	//	device1730.Write(0);
+	//}
 	CBase base(AdditionalParametersBase().name());
 	if(base.IsOpen())
 	{
@@ -104,40 +109,51 @@ unsigned MainWindow::operator()(TCreate &m)
 	Menu<MainWindowMenu::MainMenu>().Init(m.hwnd);
 	hToolBar = InitToolbar<tool_button_list>()(m.hwnd);
 	select.Create(hToolBar);
-
-	hCommunicationCheckBox = CreateWindow(L"button", L"Работа со станцией"
-			,  WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX | WS_TABSTOP
-				, 0, 0, 0, 0, hToolBar, NULL, hInstance, NULL
-				);
-	SetWindowLongPtr(hCommunicationCheckBox, GWLP_USERDATA, (DWORD)MainWindow::CommunicationRemoveUnitBtn);
+	InitBtn();
+	//hCommunicationCheckBox = CreateWindow(L"button", L"Работа со станцией"
+	//		,  WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX | WS_TABSTOP
+	//			, 0, 0, 0, 0, hToolBar, NULL, hInstance, NULL
+	//			);
+	//SetWindowLongPtr(hCommunicationCheckBox, GWLP_USERDATA, (DWORD)MainWindow::CommunicationRemoveUnitBtn);
 	Button_SetCheck(hCommunicationCheckBox
-			, 0 != Singleton<DifferentOptionsTable>::Instance().items.get<CommunicationRemoveUnit>().value 
-			? BST_CHECKED : BST_UNCHECKED);
+		, 0 != Singleton<DifferentOptionsTable>::Instance().items.get<CommunicationRemoveUnit>().value 
+		? BST_CHECKED : BST_UNCHECKED);
 
 	hStoredCheckBox  = CreateWindow(L"button", L"Сохранение первичного сигнала"
-			,  WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX | WS_TABSTOP
-				, 0, 0, 0, 0, hToolBar, NULL, hInstance, NULL
-				);
+		,  WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX | WS_TABSTOP
+		, 0, 0, 0, 0, hToolBar, NULL, hInstance, NULL
+		);
 
-	hPaintCheckBox = CreateWindow(L"button", L"Краскоотметчик"
-			,  WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX | WS_TABSTOP
-				, 0, 0, 0, 0, hToolBar, NULL, hInstance, NULL
-				);
-	SetWindowLongPtr(hPaintCheckBox, GWLP_USERDATA, (DWORD)MainWindow::PaintCheckBoxBtn);
-	Button_SetCheck(hPaintCheckBox
-			, 0 != Singleton<AdditionalParametersTable>::Instance().items.get<MarkPaint>().value 
-			? BST_CHECKED : BST_UNCHECKED);
-			
+	//hPaintCheckBox = CreateWindow(L"button", L"Краскоотметчик"
+	//		,  WS_CHILD | WS_VISIBLE | BS_AUTOCHECKBOX | WS_TABSTOP
+	//			, 0, 0, 0, 0, hToolBar, NULL, hInstance, NULL
+	//			);
+	//SetWindowLongPtr(hPaintCheckBox, GWLP_USERDATA, (DWORD)MainWindow::PaintCheckBoxBtn);
+	//Button_SetCheck(hPaintCheckBox
+	//		, 0 != Singleton<AdditionalParametersTable>::Instance().items.get<MarkPaint>().value 
+	//		? BST_CHECKED : BST_UNCHECKED);
+
 	//Singleton<DifferentOptionsTable>::Instance().items.get<CommunicationRemoveUnit>().value;
-	
+
 	hStatusWindow = CreateStatusWindow(WS_CHILD | WS_VISIBLE, NULL, m.hwnd, 0);
 	int pParts[] = {550,900, 3000};
 	SendMessage(hStatusWindow, SB_SETPARTS, 3, (LPARAM)pParts);
 	signalViewer.hWnd = CreateChildWindow(m.hwnd, (WNDPROC)&Viewer<SignalViewer>::Proc, L"SignalViewer", &signalViewer);
 	topLabelViewer.hWnd = CreateChildWindow(m.hwnd, (WNDPROC)&Viewer<TopLabelViewer>::Proc, L"TopLabelWindow", &topLabelViewer);
-	UpdateMainChart::hWnd = m.hwnd;
+	UpdateMainChart::hWnd = m.hwnd;	
 #endif
 	topLabelViewer.SetMessage(L"<ff>Установка остановлена");
+	SolidCounter sg;
+	wchar_t *typeSize = Singleton<ParametersTable>::Instance().items.get<NameParam>().value;
+	sg.Load(typeSize);
+	gridCounter.Create(hToolBar);
+	return 0;
+}
+//-------------------------------------------------------------------------------------------
+unsigned MainWindow::operator()(TNotify &m)
+{
+	GridNotify *x = (GridNotify *)GetWindowLongPtr(m.pnmh->hwndFrom, GWLP_USERDATA);
+	if(!IsBadReadPtr(x, sizeof(x)))return x->Notify(m);
 	return 0;
 }
 //-------------------------------------------------------------------------
@@ -167,7 +183,7 @@ struct EnableMenuAll
 	{
 		void operator()(O *, P *p)
 		{
-           EnableMenu<O>(p->h, p->en);
+			EnableMenu<O>(p->h, p->en);
 		}
 	};
 	HWND h;
@@ -198,5 +214,25 @@ void MainWindow::operator()(TMessage &m)
 {
 	if(m.wParam)((TptrMess )(m.wParam))((void *)m.lParam);
 }
+//-------------------------------------------------------------------
+void MainWindow::CycleBtn()
+{
+	SendMessage(hToolBar, TB_ENABLEBUTTON, IDB_CycleBtn, MAKELONG(false, 0));
+	SendMessage(hToolBar, TB_ENABLEBUTTON, IDB_OptionsBtn, MAKELONG(false, 0));
+	SendMessage(hToolBar, TB_ENABLEBUTTON, IDB_Reset, MAKELONG(true, 0));
+}
+//----------------------------------------------------------------
+void MainWindow::StopBtn()
+{
+	SendMessage(hToolBar, TB_ENABLEBUTTON, IDB_CycleBtn, MAKELONG(true, 0));
+	SendMessage(hToolBar, TB_ENABLEBUTTON, IDB_OptionsBtn, MAKELONG(true, 0));
+	SendMessage(hToolBar, TB_ENABLEBUTTON, IDB_Reset, MAKELONG(false, 0));
+}
+//-----------------------------------------------------------------
+void MainWindow::InitBtn()
+{
+	SendMessage(hToolBar, TB_ENABLEBUTTON, IDB_Reset, MAKELONG(false, 0));
+}
+//---------------------------------------------------------------
 
 MainWindow mainWindow;

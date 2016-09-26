@@ -33,7 +33,7 @@ public:
 	GridHandlers *handlers;
 	~GridNotify();
 	void Size(int, int, int, int);
-	void Create(TCreate &, GridHandlers *);
+	void Create(HWND, GridHandlers *);
 	LRESULT Notify(TNotify &);
 };
 

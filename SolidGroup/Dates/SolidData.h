@@ -12,7 +12,7 @@ public:
 public:
 	SolidData();
 	void Clear();
-	void SetData(double *data, int count);
+	void SetData(double *data, int count, int start);
 };
 
 extern SolidData solidData;

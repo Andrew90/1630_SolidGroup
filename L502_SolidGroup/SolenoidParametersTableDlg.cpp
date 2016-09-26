@@ -154,7 +154,7 @@ void SolenoidParametersTableDlg::Do(HWND h)
 {
 	if(TemplDialog<SolenoidParametersTable, TL::MkTlst<SolenoidParametersTableDlgSpace::OkBtn, CancelBtn>::Result>(Singleton<SolenoidParametersTable>::Instance()).Do(h, L"Настройки генератора"))
 	{
-		if(l502SolidGroup.SetupParams())
+		if(Singleton<L502SolidGroup>::Instance().SetupParams())
 		{
 			MessageBox(0, L"Не могу инициировать плату L502", L"Ошибка!!!", MB_ICONERROR);
 		}

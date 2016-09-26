@@ -39,7 +39,7 @@ public:
 	};
 	struct ClassTubeItem
 	{
-		int communicationID;
+	//	int communicationID;
 		unsigned color;
 		std::wstring Name;
 	};

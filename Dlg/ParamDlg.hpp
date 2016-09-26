@@ -438,6 +438,30 @@ template<class T>struct ComboEditSubItem
 		return hWnd;
 	}
 };
+template<class T,  int min = 0, int max = 31, int edit_width = 60>struct UpDownSubItem
+{
+	HWND Init(HWND h, int &width, int &dy, T &t)
+	{
+		HWND hWnd = CreateWindowEx(WS_EX_CLIENTEDGE, L"edit", Wchar_from<typename T::type_value>(t.value)()
+			,  WS_CHILD | WS_VISIBLE
+			, 10, dy, edit_width, 25, h, 0, hInstance, NULL
+			);
+
+		HWND hUpdown = CreateWindowEx(0, UPDOWN_CLASS, 0, 
+			UDS_ALIGNRIGHT | UDS_SETBUDDYINT | UDS_WRAP | WS_CHILD | WS_VISIBLE, 
+			0, 0, 0, 0,
+			h, 0, hInstance, NULL);
+
+		CreateWindow(L"static", ParamTitle<T>()()
+			, WS_VISIBLE | WS_CHILD
+			, edit_width + 20, dy + 3, dlg_width, 20, h, 0, hInstance, NULL
+			);
+		SendMessage(hUpdown, UDM_SETBUDDY, (WPARAM)hWnd, 0);
+		SendMessage(hUpdown, UDM_SETRANGE, 0, (LPARAM) MAKELONG((short)max, (short)min));
+		dy += 25;
+		return hWnd;
+	}
+};
 //---------------------------------------------------------------------------
 //////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////

@@ -70,19 +70,19 @@ unsigned TresholdPanelViewer::operator()(TCreate &m)
 				, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_LEFT | WS_TABSTOP
 				, 5, 135 + dy, 125, 20, m.hwnd, 0, hInstance, NULL
 				);
-	 hEditCommunicationID = CreateWindow(L"edit", L""
-				, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_LEFT | WS_TABSTOP
-				, 135, 135 + dy, 125, 20, m.hwnd, 0, hInstance, NULL
-				);
+	// hEditCommunicationID = CreateWindow(L"edit", L""
+	//			, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_LEFT | WS_TABSTOP
+	//			, 135, 135 + dy, 125, 20, m.hwnd, 0, hInstance, NULL
+	//			);
 
 	// editRenameGroup = CreateWindow(L"edit", L""
 		//		, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_LEFT | WS_TABSTOP
 			//	, 265, 135 + dy, 125, 20, m.hwnd, 0, hInstance, NULL
 			//	);
 
-	grid.Create(m, &solidGridGridViewer);
+	grid.Create(m.hwnd, &solidGridGridViewer);
 	solidGridGridViewer.hEdits[0] = hEditGroup;
-	solidGridGridViewer.hEdits[1] = hEditCommunicationID;
+//	solidGridGridViewer.hEdits[1] = hEditCommunicationID;
 	return 0;
 }
 //----------------------------------------------------------------------------------------------------
@@ -247,28 +247,40 @@ void TresholdPanelViewer::AddNameBtn   (TCommand &m)
 			MessageBox(o->hWnd, L"Необходимо ввести группу прочности", L"Ошибка", MB_ICONERROR);
 			return;
 		}
-		wchar_t comm[128];
-		GetWindowText(o->hEditCommunicationID, comm, 128);
-		if(Test<int>()(comm))
+		//wchar_t comm[128];
+		//GetWindowText(o->hEditCommunicationID, comm, 128);
+		//if(Test<int>()(comm))
+		//{
+		//	int comID = _wtoi(comm);
+		//	int id = corel.InsertGroupeName(editBuf, comID);
+		//	if(id)
+		//	{
+		//		Corel::ClassTubeItem *t = corel.classTubeItem[id];
+		//		if(NULL == t)
+		//		{
+		//			t = new Corel::ClassTubeItem;
+		//			t->Name = editBuf;
+		//			corel.classTubeItem[id] = t;
+		//		}
+		//		corel.classTubeItem[id]->communicationID = comID;
+		//		ListView_Update(o->grid.hWnd, 0);
+		//	}
+		//}
+		//else
+		//{
+		//	MessageBox(o->hWnd, L"Должно быть введено число", L"Ошибка", MB_ICONERROR);
+		//}
+		int id = corel.InsertGroupeName(editBuf, 0);
+		if(id)
 		{
-			int comID = _wtoi(comm);
-			int id = corel.InsertGroupeName(editBuf, comID);
-			if(id)
+			Corel::ClassTubeItem *t = corel.classTubeItem[id];
+			if(NULL == t)
 			{
-				Corel::ClassTubeItem *t = corel.classTubeItem[id];
-				if(NULL == t)
-				{
-					t = new Corel::ClassTubeItem;
-					t->Name = editBuf;
-					corel.classTubeItem[id] = t;
-				}
-				corel.classTubeItem[id]->communicationID = comID;
-				ListView_Update(o->grid.hWnd, 0);
+				t = new Corel::ClassTubeItem;
+				t->Name = editBuf;
+				corel.classTubeItem[id] = t;
 			}
-		}
-		else
-		{
-			MessageBox(o->hWnd, L"Должно быть введено число", L"Ошибка", MB_ICONERROR);
+			ListView_Update(o->grid.hWnd, 0);
 		}
 	}
 }

@@ -241,6 +241,34 @@ struct SolenoidParametersTable
 	const wchar_t *name(){return L"SolenoidParametersTable";}
 };
 //----------------------------------------------------------------------------------
+DEFINE_PARAM(InputSignal, int, 0)
+DEFINE_PARAM(ReferenceSignal, int, 1)
+struct ADCInputsParametersTable
+{
+	typedef TL::MkTlst<
+		InputSignal
+		, ReferenceSignal
+	>::Result items_list;
+	typedef NullType unique_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"ADCInputsParametersTable";}
+};
+//-----------------------------------------------------------------------------------
+DEFINE_PARAM(ModuleOn, int, 1)
+DEFINE_PARAM(TubeIn, int, 2)
+struct DInputsParametersTable
+{
+	typedef TL::MkTlst<
+		ModuleOn
+		, TubeIn
+	>::Result items_list;
+	typedef NullType unique_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"DInputsParametersTable";}
+};
+//--------------------------------------------------------------------------------------
 struct ParametersBase
 {
    typedef TL::MkTlst<
@@ -252,6 +280,8 @@ struct ParametersBase
 	, GraphicSignalOptionsTable
 	, PointsOptionsTable
 	, SolenoidParametersTable
+	, ADCInputsParametersTable
+	, DInputsParametersTable
 	>::Result one_row_table_list;
     typedef TL::MkTlst<
 		CurrentParametersTable

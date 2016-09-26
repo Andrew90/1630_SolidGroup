@@ -2,17 +2,10 @@
 #include "GlobalItems.h"
 #include "ArchiveEvents.h"
 #include "CounterTubes.h"
-//#include "MainLoop.h"
 #include "AppBase.h"
-//#include "Automat.h"
 #include "Device1730.h"
 #include "Compute.h"
 #include "ChangeOut.h"
-//#include "Lan.h"
-//#include "OutBitDown.h"
-//#include "SQEvents.h"
-//#include "Controller.h"
-//#include "Config.h"
 #include "StoredData.h"
 
 #include "ChartData.h"
@@ -23,24 +16,30 @@
 #include "Corel.h"
 #include "ClientTreshold.h"
 
+namespace
+{
+	L502SolidGroup  &l502SolidGroup = Singleton<L502SolidGroup>::Instance();
+}
+
 bool InitGlobalData()
 {
 	AppBase().Init();	
 	
-	if(!device1730.Init(L"PCIE-1730,BID#0"))
-	{
-		MessageBox(0, L"Не могу инициировать плату 1730", L"Ошибка !!!", MB_ICONERROR);
-		return false;
-	}
-	device1730.Write(0);
+	//if(!device1730.Init(L"PCIE-1730,BID#0"))
+	//{
+	//	MessageBox(0, L"Не могу инициировать плату 1730", L"Ошибка !!!", MB_ICONERROR);
+	//	return false;
+	//}
+//	device1730.Write(0);
 	if(l502SolidGroup.Init() && l502SolidGroup.SetupParams())
 	{
 		MessageBox(0, L"Не могу инициировать плату L502", L"Ошибка !!!", MB_ICONERROR);
 		return false;
 	}
-	automat.dataChanged = UpdateMainChart::Update;
+	
 	corel.Init();
-	automat.Init();
+	Automat::Init();
+	Automat::dataChanged = UpdateMainChart::Update;
 	CBase base(ParametersBase().name());
 	if(base.IsOpen())
 	{
@@ -54,12 +53,8 @@ bool InitGlobalData()
 
 void DestroyGlobalData()
 {
-//	counterTubes.Destroy();
-	device1730.Write(0);
-	Sleep(100);
-	device1730.Destroy();
-	l502SolidGroup.Destroy();
-	automat.Destroy();
+	Automat::Destroy();
+	l502SolidGroup.Destroy();	
 }
 ArchiveEvents archiveEvents;
 
@@ -69,9 +64,9 @@ ChartData l502Reference;
 SolidData solidData;
 Compute compute;
 
-L502SolidGroup l502SolidGroup;
+//L502SolidGroup l502SolidGroup;
 
-Automat automat;
+//Automat automat;
 
 Corel corel;
 ClientTreshold clientTreshold;
@@ -80,11 +75,11 @@ ClientTreshold clientTreshold;
 ChangeOut changeOut;
 //StoredData storedData;
 
-#ifndef DEBUG_ITEMS
- Device1730 device1730;
-#else
- Debug1730 device1730;
-#endif
+//#ifndef DEBUG_ITEMS
+// Device1730 device1730;
+//#else
+// Debug1730 device1730;
+//#endif
  /*
 bool initGlobalUnitOk;
 */

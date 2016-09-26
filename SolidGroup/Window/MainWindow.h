@@ -4,6 +4,8 @@
 #include "message.h"
 #include "SignalViewer.h"
 #include "TopLabelViewer.h"
+#include "GridCounter.h"
+
 class MainWindow
 {
 public:
@@ -18,12 +20,13 @@ public:
 	HWND hToolBar;	
 	bool options;
 	SignalViewer signalViewer;
+	GridCounterViewer gridCounter;
 	void operator()(TSize &);
+	unsigned operator()(TNotify &);
 	void operator()(TCommand &);
 	void operator()(TGetMinMaxInfo &);
 	unsigned operator()(TCreate &);
 	void operator()(TDestroy &);
-	//void operator()(TMouseWell &);
 	void operator()(TSizing &);
 	void DisableMemuItemFile();
 	void EnableMemuItemFile();
@@ -31,5 +34,8 @@ public:
 	void operator()(TMessage &);
 	static void CommunicationRemoveUnitBtn(TCommand &);
 	static void PaintCheckBoxBtn(TCommand &m);
+	void CycleBtn();
+	void StopBtn();
+	void InitBtn();
 };
 extern MainWindow mainWindow;

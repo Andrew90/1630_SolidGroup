@@ -8,44 +8,27 @@
 #include "AutomaticThresholdsWindow.h"
 #include "Config.h"
 #include "Automat.h"
-//#include "StoredData.h"
 //----------------------------------------------------------------------------------
 void SycleMeashurement(HWND h)
 {
-#ifndef DEBUG_ITEMS
-	automat.Start();
-#else
-	ComputeStep(0);
-	StoreDataFile();
-//	StoredData::Instance().Inc();
-#endif
+	Automat::Start();
+	mainWindow.CycleBtn();
 }
 //-------------------------------------------------------------------------------
 void TresholdsViewBtn(HWND h)
 {
-#pragma message("Автоматическая настройка порогов тулбар кнопка")
-	AutomaticThresholdsWindow::Instance().Open();
+	AutomaticThresholdsWindow::Instance().Open();	
 }
 //-------------------------------------------------------------------------------------
-/*
-void SingleMeashurement(HWND h)
-{
-#ifndef DEBUG_ITEMS
-	automat.Start();
-#else
-	StoreDataFile();
-#endif
-}
-*/
-
 void ViewerBtn(HWND)
 {
-	ZonesWindow::Open();
+	ZonesWindow::Open();	
 }
 //-----------------------------------------------------------------------------
 void StopMeashurement(HWND h)
 {
-	automat.Stop();
+	Automat::Stop();
+	mainWindow.StopBtn();
 }
 //-------------------------------------------------------------------------------------------
 

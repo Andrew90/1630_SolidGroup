@@ -95,6 +95,13 @@ namespace TL
 		typedef Tlst<Head, tmp> Result;
 	};
 //-------------------------------------------------------------------------------------------------------------
+	template<class O, class P>struct __cpy__
+	{
+		void operator()(O *o, P *p)
+		{
+			o->value = p->get<O>().value;
+		}
+	};
 	template<class List>struct Factory;
 	template<class Head, class Tail>struct Factory<Tlst<Head, Tail> >: Head, Factory<Tail>
 	{

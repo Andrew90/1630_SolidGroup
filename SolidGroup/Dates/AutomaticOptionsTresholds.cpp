@@ -59,12 +59,13 @@ struct DataBufferX: Compute::Data
 	{
 		if(f)fclose(f);
 	}
-	double dataBuffer(int i)
+	bool dataBuffer(int i, double &d)
 	{
-		if(i > currentOffset) return 0;
+		if(i > currentOffset) return false;
 		if(ok && i > dataBufferOffsetMin && i < dataBufferOffsetMax)
 		{
-	    	return dataBuf[i - dataBufferOffsetMin];
+	    	d = dataBuf[i - dataBufferOffsetMin];
+			return true;
 		}
 		else
 		{
@@ -74,17 +75,19 @@ struct DataBufferX: Compute::Data
 			{
 				dataBufferOffsetMin = i;
 				dataBufferOffsetMax = dataBufferOffsetMin + dimention_of(dataBuf);
-				return dataBuf[0]; 
+				d = dataBuf[0];
+				return true;
 			}
 		}
-		return 0;
+		return false;
 	}
-	double referenceBuffer(int i)
+	bool referenceBuffer(int i, double &d)
 	{
-		if(i > currentOffset) return 0;
+		if(i > currentOffset) return false;
 		if(ok && i > referenceBufferOffsetMin && i < referenceBufferOffsetMax)
 		{
-	    	return referenceBuf[i - referenceBufferOffsetMin];
+	    	d = referenceBuf[i - referenceBufferOffsetMin];
+			return true;
 		}
 		else
 		{
@@ -94,10 +97,11 @@ struct DataBufferX: Compute::Data
 			{
 				referenceBufferOffsetMin = i;
 				referenceBufferOffsetMax = referenceBufferOffsetMin + dimention_of(referenceBuf);
-				return referenceBuf[0]; 
+				d = referenceBuf[0]; 
+				return true;
 			}
 		}
-		return 0;
+		return false;
 	}
 };
 void AutomaticOptionsTresholds::SubUpdate(wchar_t *letter, unsigned color)
@@ -118,14 +122,12 @@ void AutomaticOptionsTresholds::SubUpdate(wchar_t *letter, unsigned color)
 					int start = int(0.1 * dataBuff.currentOffset);
 					int stop = dataBuff.currentOffset - start;
 					double inputs[1024] = {};
-					int length;
 					compute.SubCompute(
 						tresholds
 						, start
 						, stop
 						, dataBuff
 						, inputs
-						, length
 						);
 					Data data;
 					memcpy(data.tresholds, corel.inputItem.elements, sizeof(data.tresholds));

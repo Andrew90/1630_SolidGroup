@@ -1,21 +1,10 @@
 #pragma once
 
-class Automat
+namespace Automat
 {
-	bool contine;
-public:
-	bool start;
-private:
-	static void Do(Automat *);
-public:
-	static void (*dataChanged)();
-	Automat();
+	extern void(*dataChanged)();
 	void Init();
 	void Destroy();
 	void Start();
 	void Stop();
-};
-
-extern Automat automat;
-
-void ComputeStep(unsigned );
+}

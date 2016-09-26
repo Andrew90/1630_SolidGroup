@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "Compute.h"
+//#include <map>
+#include <algorithm>
 #include "SolidData.h"
 #include "ChartData.h"
 #include "AppBase.h"
@@ -29,58 +31,95 @@ template<class O, class P>struct __tresholds__
 
 struct DataBuffer: Compute::Data
 {
-	double dataBuffer(int i)
+	bool dataBuffer(int i, double &d)
 	{
-		return solidData.dataBuffer[i];
+		d = solidData.dataBuffer[i];
+		return true;
 	}
-	double referenceBuffer(int i)
+	bool referenceBuffer(int i, double &d)
 	{
-		return solidData.referenceBuffer[i];
+		d = solidData.referenceBuffer[i];
+		return true;
 	}
 };
 
-bool Compute::SubCompute(int(&tresholds)[8], int start, int stop, Data &data, double(&inputs)[1024], int &length)
+namespace
 {
-	const int period = frequency502 / (2 * 2 * frequenctGenerator);
-	const int periodMin = int(0.9 * period);
-	const int perionMax = int(1.1 * period);
-	int count = 0;
-	length = 0;
-	for(int i = start; i < stop;)
+	struct TItem
 	{
-		while(data.dataBuffer(i) < 0 && i < stop) ++i;
+		int count;
+		double correlation;
+	};
+	typedef std::map<int, TItem>::value_type TMapItem; 
+	struct MapMax
+	{
+		int &classTube, count;
+		double &correlation;
+		MapMax(int &classTube, double &correlation)
+			: classTube(classTube)
+			, count(0)
+			, correlation(correlation)
+		{}
+		void operator()(TMapItem &x)
+		{
+			if(x.second.count > count)
+			{
+				classTube = x.first;
+				count = x.second.count;
+				if(count > 0)correlation = x.second.correlation / count;
+			}
+		}
+	};
+}
+
+bool Compute::SubCompute(int(&tresholds)[8], int start, int stop, Data &data, double(&inputs)[1024])
+{
+	std::map<int, TItem> mapItems;	
+	double length = frequency502 / (2 * 2 * frequenctGenerator);
+	int count = 0;
+	int k = start;
+	int offs[dimention_of(tresholds)];
+	for(int i = 0; i < dimention_of(offs); ++i)
+	{
+		offs[i] = int((double)length * tresholds[i] / 100.0);
+	}
+	double sample;
+	while(data.dataBuffer(k, sample) && sample > 0 && k < stop) ++k;
+	for(int i = k; i < stop;)
+	{
+		while(data.dataBuffer(i, sample) && sample < 0 && i < stop) ++i;
 		int k = 0;
 		int zeroStart = i;
-		
-		for(; k < dimention_of(inputs)&&data.dataBuffer(i) > 0; ++k, ++i);
-	
-		if(k > periodMin && k < perionMax)
+		bool b;
+		for(; k < dimention_of(inputs)&&(b = data.dataBuffer(i, sample)) && sample > 0; ++k, ++i);
+		if(!b) break;
+		for(int z = 0; z < k && data.dataBuffer(z + zeroStart, sample); ++z)
 		{
-			for(int z = 0; z < k; ++z)
-			{
-				inputs[z] += data.dataBuffer(z + zeroStart);
-			}
-			++count;
-		dprint("count__ %d %d", k, count);
-		length += k;
+			inputs[z] += sample;
 		}
+		++count;
+		for(int z = 0; z < dimention_of(corel.inputItem.elements) && data.dataBuffer(zeroStart + offs[z], sample); ++z)
+		{
+			corel.inputItem.elements[z] = sample;
+		}
+		corel.Compute();
+		++mapItems[corel.inputItem.classTube].count;
+		mapItems[corel.inputItem.classTube].correlation += corel.inputItem.correlation;
 	}
 	if(count > 0) 
 	{
-		dprint("length %d", length);
 		for(int i = 0; i < dimention_of(corel.inputItem.elements); ++i)
 		{
-			int z = int((double)period * tresholds[i] / 100.0);
-			
-			corel.inputItem.elements[i] = inputs[z] / count;
-			dprint("offsets__ %d %f", z, corel.inputItem.elements[i]);
-		}
-		length = period;
-		corel.Compute();
-		return true;
+			corel.inputItem.elements[i] = inputs[offs[i]] / count;
+		}		
 	}
-	return false;
- }
+	int classTube = 0;
+	double correlation = 0;
+	for_each(mapItems.begin(), mapItems.end(), MapMax(classTube, correlation));
+	corel.inputItem.classTube = classTube;
+	corel.inputItem.correlation = correlation;
+	return true;
+}
 
 void Compute::Do()
 {
@@ -91,36 +130,21 @@ void Compute::Do()
 		&Singleton<ThresholdsTable>::Instance().items
 		, tresholds
 		);
-	 solidData.start = int(0.1 * solidData.currentOffset);
-	 solidData.stop = solidData.currentOffset - solidData.start;
-	 double inputs[1024] = {};
-	 int length;
-    if(SubCompute(
+	solidData.start = int(0.1 * solidData.currentOffset);
+	solidData.stop = solidData.currentOffset - solidData.start;
+	double inputs[1024] = {};
+	corel.inputItem.classTube = 0;
+	SubCompute(
 		tresholds
 		, solidData.start
 		, solidData.stop
 		, DataBuffer()
 		, inputs
-		, length
-		)
-	)
-	{
-		if(0 != corel.inputItem.classTube)
-		{
-			CommunicationTCP::Result = corel.classTubeItem[corel.inputItem.classTube]->communicationID;
-		}
-		else
-		{
-			CommunicationTCP::Result = 0;
-		}
-		return;
-	}
-	corel.inputItem.classTube = 0;
+		);
 }
 void Compute::Recalculation()
- {
+{
 	Do();
-	CommunicationTCP::Result = 0;
 	std::wstring s = L"<ff0000>";
 	s += LoadDateFile::path;
 	s += L". <ff>Результат контроля. Группа прочности ";
@@ -135,4 +159,4 @@ void Compute::Recalculation()
 		s = L"";
 	}
 	topLabelViewer.SetMessage((wchar_t *)s.c_str());
- }
+}

@@ -166,3 +166,15 @@ class TcpCommunicationsDlg
 public:
 	static void Do(HWND);
 };
+
+class AdcInputPortsDlg
+{
+public:
+	static void Do(HWND);
+};
+
+class DInputPortsDlg
+{
+public:
+	static void Do(HWND);
+};

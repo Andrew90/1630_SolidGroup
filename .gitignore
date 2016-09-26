@@ -37,3 +37,6 @@ _ReSharper*/
 ipch/
 *.sdf
 !lib/l502api.lib
+test
+SolidGroup/NumVerOld.txt
+SolidGroup/Version.h

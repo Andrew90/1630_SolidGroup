@@ -5,13 +5,14 @@
 #include "typelist.hpp"
 
 #include "DebugMess.h"
+extern HINSTANCE hInstance;
 //------------------------------------------------------------------------------------
 GridNotify::~GridNotify()
 {
 	SetWindowLongPtr(hWnd, GWL_USERDATA, 0);
 }
 //---------------------------------------------------------------------------------
-void GridNotify::Create(TCreate &m, GridHandlers *h)
+void GridNotify::Create(HWND hwnd, GridHandlers *h)
 {
 	handlers = h;
 	hWnd = CreateWindowEx(
@@ -19,7 +20,7 @@ void GridNotify::Create(TCreate &m, GridHandlers *h)
 		, WC_LISTVIEW, L"",
 		WS_VISIBLE | WS_CHILD | LVS_REPORT 	
 		, 0, 0, 0, 0,
-		m.hwnd, NULL, m.create->hInstance, NULL
+		hwnd, NULL, hInstance, NULL
 		);
 	SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG)this);
 	ListView_SetExtendedListViewStyleEx(hWnd

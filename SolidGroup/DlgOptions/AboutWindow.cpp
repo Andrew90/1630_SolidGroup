@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "Dialogs.h"
+#include "Version.h"
 
 static const wchar_t *about_text[] = {
 	L"ООО НТЦ НК 'Уран'"
-	, L"Декабрь 2014 г."
-	, L"Версия 7.3"
+	, L"1630.2.453.20160926B"
+	, VERSION()
 };
 extern HINSTANCE hInstance;
 LRESULT CALLBACK Proc(HWND h, UINT msg, WPARAM wParam, LPARAM lParam)

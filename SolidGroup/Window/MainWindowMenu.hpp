@@ -15,17 +15,6 @@ struct OptionsCoefficients{};
 struct AdditionalParametersTypesize{};
 struct InputsOutputs{};
 struct MainAbout{};
-/* test
-struct LoadData{};
-struct StoredData{};
-struct Recalculation{};
-struct MedianFiltreDlg{};
-struct DeadAreaDlg{};
-struct ACFBorderDlg{};
-struct Descriptor1730Dlg {};
-struct InputsDlg		 {};
-struct OutputsDlg		 {};
-*/
 
 template<>struct TopMenu<MainFile>
 {
@@ -71,8 +60,10 @@ struct CommunicationOptions{};
 template<>struct TopMenu<MainOptionUnits>
 {
 	typedef TL::MkTlst<	
-		MenuItem<CommunicationOptions>
-		, MenuItem<SolenoidParametersTableDlg>
+		//MenuItem<CommunicationOptions>
+		 MenuItem<SolenoidParametersTableDlg>
+		, MenuItem<AdcInputPortsDlg>
+		, MenuItem<DInputPortsDlg>
 		, Separator<0>
 		, MenuItem<CoordinatesDlg>
 	>::Result list;
@@ -113,6 +104,8 @@ typedef TL::MkTlst<
 	MENU_TEXT(L"Настройка аналоговой платы", MenuItem<L502ParamDlg>)	
 	MENU_TEXT(L"Настройка сетевого подключения", MenuItem<CommunicationOptions>)	
 	MENU_TEXT(L"Настройки генератора", MenuItem<SolenoidParametersTableDlg>)
+	MENU_TEXT(L"Настройки входов аналоговой платы", MenuItem<AdcInputPortsDlg>)
+	MENU_TEXT(L"Настройки входов дискретной платы", MenuItem<DInputPortsDlg>)
 
 	MENU_TEXT(L"Коэффициенты перерасчёта", MenuItem<OptionsCoefficients>)	
 	MENU_TEXT(L"Пороги опорного сигнала", MenuItem<ReferencePointsDlg>)	
@@ -150,6 +143,8 @@ template<>struct Event<MenuItem<MedianFiltreDlg> >{static void Do(HWND h){;}};//
 template<>struct Event<MenuItem<ACFBorderDlg> >{static void Do(HWND h){;}};//
 template<>struct Event<MenuItem<DeadAreaDlg> >{static void Do(HWND h){;}};//
 
+template<>struct Event<MenuItem<AdcInputPortsDlg> >{static void Do(HWND h){AdcInputPortsDlg::Do(h);}};//
+template<>struct Event<MenuItem<DInputPortsDlg> >{static void Do(HWND h){DInputPortsDlg::Do(h);}};//
 
 
 template<>struct Event<MenuItem<InputsDlg> >{static void Do(HWND h){;}};//
@@ -168,7 +163,12 @@ template<>struct Event<MenuItem<StoredData> >
     {
 		if(TypesizePasswordDlg().Do(h) && IDYES == MessageBox(h, L"Обнулить счётчик труб?", L"Предупреждение", MB_ICONINFORMATION | MB_YESNO | MB_DEFBUTTON2))
 		{
-			StoredData::Instance().Clear();
+			//StoredData::Instance().Clear();
+			SolidCounter sg;
+			wchar_t *typeSize = Singleton<ParametersTable>::Instance().items.get<NameParam>().value;
+			sg.Clear(typeSize);
+			sg.data.data.clear();
+			mainWindow.gridCounter.Update();
 		}
 	}
 };

@@ -240,6 +240,7 @@
     <ClCompile Include="DlgOptions\InputOutputDlg.cpp" />
     <ClCompile Include="DlgOptions\ParamDlgL502.cpp" />
     <ClCompile Include="DlgOptions\ReferencePoints.cpp" />
+    <ClCompile Include="DlgOptions\SyncroDlg.cpp" />
     <ClCompile Include="DlgOptions\TcpCommunications.cpp" />
     <ClCompile Include="GlobalHandlers\GlobalHandlers.cpp" />
     <ClCompile Include="Messages\Messages.cpp" />

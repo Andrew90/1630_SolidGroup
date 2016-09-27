@@ -143,7 +143,8 @@ void TresholdPanelViewer::RemoveUnitBtn	 (TCommand &m)
 			corel.selectedRow = -1;
 			HWND h = GetParent(m.hwnd);
 			TresholdWindow *o = (TresholdWindow *)GetWindowLongPtr(h, GWLP_USERDATA);
-			ListView_Update(o->grid.hWnd, 0);
+			//ListView_Update(o->grid.hWnd, 0);
+			UpdateRows(o->grid.hWnd);
 		}
 	}
 }
@@ -153,7 +154,8 @@ void GlobalHandlers<UpdateReferencePointsGridHandler>::operator()()
 	TresholdWindow &o = TresholdWindow::Instance();
 	if(0 != o.hWnd)
 	{
-		ListView_Update(o.grid.hWnd, 0);
+		//ListView_Update(o.grid.hWnd, 0);
+		UpdateRows(o.grid.hWnd);
 	}
 }
 
@@ -173,7 +175,8 @@ void TresholdPanelViewer::AddUnitBtn	 (TCommand &m)
 
 				corel.inputItem.typeSize = current.items.get<CurrentID>().value;
 				corel.InsertElement(corel.inputItem);
-				ListView_Update(o->grid.hWnd, 0);
+				//ListView_Update(o->grid.hWnd, 0);
+				UpdateRows(o->grid.hWnd);
 			}
 		}
 		else
@@ -205,7 +208,8 @@ void TresholdPanelViewer::RemoveNameBtn(TCommand &m)
 				break;
 			}
 		}
-		ListView_Update(o->grid.hWnd, 0);
+		//ListView_Update(o->grid.hWnd, 0);
+		UpdateRows(o->grid.hWnd);
 	}
 	}
 }
@@ -280,7 +284,8 @@ void TresholdPanelViewer::AddNameBtn   (TCommand &m)
 				t->Name = editBuf;
 				corel.classTubeItem[id] = t;
 			}
-			ListView_Update(o->grid.hWnd, 0);
+			//ListView_Update(o->grid.hWnd, 0);
+			UpdateRows(o->grid.hWnd);
 		}
 	}
 }

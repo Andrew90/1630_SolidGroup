@@ -9,9 +9,9 @@ static const int count_zones = 360;//240;
 extern const double &result_undefined;
 //-----------------------------------------------------------------------------------
 DEFINE_PARAM(OffsetWindowX, int, 0)
-DEFINE_PARAM(OffsetWindowY, int, 0)
-DEFINE_PARAM(WindowWidth, int, 750)
-DEFINE_PARAM(WindowHeight, int, 450)
+	DEFINE_PARAM(OffsetWindowY, int, 0)
+	DEFINE_PARAM(WindowWidth, int, 750)
+	DEFINE_PARAM(WindowHeight, int, 450)
 struct ThicknessWindowTable
 {
 	typedef TL::MkTlst<	
@@ -53,7 +53,7 @@ struct TresholdPanelViewerTable
 	const wchar_t *name(){return L"TresholdPanelViewer";}
 };
 
-	struct TresholdWindowTable
+struct TresholdWindowTable
 {
 	typedef TL::MkTlst<	
 		OffsetWindowX
@@ -76,6 +76,18 @@ struct InputsTable
 	const wchar_t *name(){return L"InputsTable";}
 };
 
+DEFINE_PARAM(SyncroData, bool, false)
+struct SyncroDataTable
+{
+	typedef TL::MkTlst<	
+		SyncroData
+	>::Result items_list;
+	typedef NullType unique_list;
+	typedef TL::Factory<items_list> TItems;
+	TItems items;
+	const wchar_t *name(){return L"SyncroDataTable";}
+};
+
 struct OutputsTable
 {
 	typedef output_bits_list items_list;
@@ -85,7 +97,7 @@ struct OutputsTable
 	const wchar_t *name(){return L"OutputsTable";}
 };
 DEFINE_PARAM(PortTCP, int, 2030)
-STR_PARAM(AddresTCP, 17, L"192.168.1.100")
+	STR_PARAM(AddresTCP, 17, L"192.168.1.100")
 struct TcpCommunications
 {
 	typedef TL::MkTlst<	
@@ -99,7 +111,7 @@ struct TcpCommunications
 };
 //-----------------------------------------------------------------------------------
 DEFINE_PARAM(L502Signal, double, 10)
-DEFINE_PARAM(L502ReferencePoint, double, 10)
+	DEFINE_PARAM(L502ReferencePoint, double, 10)
 
 struct L502ParametersTable
 {
@@ -142,18 +154,18 @@ template<int >struct XParam;
 template<int >struct EParam;
 
 DEFINE_PARAM_NUM(EParam, 1, int, 36)
-DEFINE_PARAM_NUM(EParam, 2, int, 40)
-DEFINE_PARAM_NUM(EParam, 3, int, 45)
-DEFINE_PARAM_NUM(EParam, 4, int, 50)
-DEFINE_PARAM_NUM(EParam, 5, int, 59)
-DEFINE_PARAM_NUM(EParam, 6, int, 62)
-DEFINE_PARAM_NUM(EParam, 7, int, 65)
-DEFINE_PARAM_NUM(EParam, 8, int, 70)
+	DEFINE_PARAM_NUM(EParam, 2, int, 40)
+	DEFINE_PARAM_NUM(EParam, 3, int, 45)
+	DEFINE_PARAM_NUM(EParam, 4, int, 50)
+	DEFINE_PARAM_NUM(EParam, 5, int, 59)
+	DEFINE_PARAM_NUM(EParam, 6, int, 62)
+	DEFINE_PARAM_NUM(EParam, 7, int, 65)
+	DEFINE_PARAM_NUM(EParam, 8, int, 70)
 
 struct ThresholdsTable
 {
 	typedef TL::MkTlst<
-		  EParam<1>
+		EParam<1>
 		, EParam<2>
 		, EParam<3>
 		, EParam<4>
@@ -181,7 +193,7 @@ struct ParametersTable
 };
 //----------------------------------------------------------------------------------------
 DEFINE_PARAM(CommunicationRemoveUnit, int, 0)
-DEFINE_PARAM(CounterTubesStored, int, 0)
+	DEFINE_PARAM(CounterTubesStored, int, 0)
 
 struct DifferentOptionsTable
 {
@@ -195,9 +207,9 @@ struct DifferentOptionsTable
 	const wchar_t *name(){return L"DifferentOptionsTable";}
 };
 DEFINE_PARAM(OffsetAxesX, int, 100)
-DEFINE_PARAM(FrameWidth, int, 400)
-DEFINE_PARAM(MaxAxesY, double, 10)
-DEFINE_PARAM(MinAxesY, double, -10)
+	DEFINE_PARAM(FrameWidth, int, 400)
+	DEFINE_PARAM(MaxAxesY, double, 10)
+	DEFINE_PARAM(MinAxesY, double, -10)
 struct GraphicSignalOptionsTable
 {
 	typedef TL::MkTlst<
@@ -224,9 +236,9 @@ struct PointsOptionsTable
 };
 //----------------------------------------------------------------------------------
 DEFINE_PARAM(Frequency502, int, 4000)
-DEFINE_PARAM(FrequencyGenerator, int, 6)
-DEFINE_PARAM(InputRangeSignal, int, 0)
-DEFINE_PARAM(RangeReferenceSignal, int, 0)
+	DEFINE_PARAM(FrequencyGenerator, int, 6)
+	DEFINE_PARAM(InputRangeSignal, int, 0)
+	DEFINE_PARAM(RangeReferenceSignal, int, 0)
 struct SolenoidParametersTable
 {
 	typedef TL::MkTlst<
@@ -242,7 +254,7 @@ struct SolenoidParametersTable
 };
 //----------------------------------------------------------------------------------
 DEFINE_PARAM(InputSignal, int, 0)
-DEFINE_PARAM(ReferenceSignal, int, 1)
+	DEFINE_PARAM(ReferenceSignal, int, 1)
 struct ADCInputsParametersTable
 {
 	typedef TL::MkTlst<
@@ -256,7 +268,7 @@ struct ADCInputsParametersTable
 };
 //-----------------------------------------------------------------------------------
 DEFINE_PARAM(ModuleOn, int, 1)
-DEFINE_PARAM(TubeIn, int, 2)
+	DEFINE_PARAM(TubeIn, int, 2)
 struct DInputsParametersTable
 {
 	typedef TL::MkTlst<
@@ -271,33 +283,34 @@ struct DInputsParametersTable
 //--------------------------------------------------------------------------------------
 struct ParametersBase
 {
-   typedef TL::MkTlst<
-	 TcpCommunications
-	, ThicknessWindowTable
-	, ZonesWindowTable
-	, TresholdWindowTable
-	, DifferentOptionsTable
-	, GraphicSignalOptionsTable
-	, PointsOptionsTable
-	, SolenoidParametersTable
-	, ADCInputsParametersTable
-	, DInputsParametersTable
+	typedef TL::MkTlst<
+		TcpCommunications
+		, ThicknessWindowTable
+		, ZonesWindowTable
+		, TresholdWindowTable
+		, DifferentOptionsTable
+		, GraphicSignalOptionsTable
+		, PointsOptionsTable
+		, SolenoidParametersTable
+		, ADCInputsParametersTable
+		, DInputsParametersTable
+		, SyncroDataTable
 	>::Result one_row_table_list;
-    typedef TL::MkTlst<
+	typedef TL::MkTlst<
 		CurrentParametersTable
 		, ThresholdsTable
 		, ParametersTable
-   >::Result multy_row_table_list;
-   typedef TL::MkTlst<
-		 one_row_table_list
-		 , multy_row_table_list
+	>::Result multy_row_table_list;
+	typedef TL::MkTlst<
+		one_row_table_list
+		, multy_row_table_list
 	>::Result multy_type_list; 
-  
+
 	typedef TL::MultyListToList<multy_type_list>::Result type_list;
 	typedef TL::Factory<type_list> TTables;
-   TTables tables;
-   wchar_t path[256];
-   const wchar_t *name();
+	TTables tables;
+	wchar_t path[256];
+	const wchar_t *name();
 };
 
 struct AppBase
@@ -307,11 +320,11 @@ struct AppBase
 
 template<class T>int CurrentId(CBase &base)
 {
-	  CurrentParametersTable &current = Singleton<CurrentParametersTable>::Instance();
-	  Select<CurrentParametersTable>(base).ID(1).Execute(current);
-	  ParametersTable param;
-	  Select<ParametersTable>(base).ID(current.items.get<CurrentID>().value).Execute(param);
-	  return param.items.get<T>().value;
+	CurrentParametersTable &current = Singleton<CurrentParametersTable>::Instance();
+	Select<CurrentParametersTable>(base).ID(1).Execute(current);
+	ParametersTable param;
+	Select<ParametersTable>(base).ID(current.items.get<CurrentID>().value).Execute(param);
+	return param.items.get<T>().value;
 }
 
 template<class T>int CountId(CBase &base, int num)
@@ -329,9 +342,9 @@ template<class T>int CountId(CBase &base, int num)
 
 template<class T>void UpdateId(CBase &base, int num)
 {
-   CurrentParametersTable &current = Singleton<CurrentParametersTable>::Instance();
-   Select<CurrentParametersTable>(base).ID(1).Execute(current);
-   Update<ParametersTable>(base).set<T>(num).Where().ID(current.items.get<CurrentID>().value).Execute();
+	CurrentParametersTable &current = Singleton<CurrentParametersTable>::Instance();
+	Select<CurrentParametersTable>(base).ID(1).Execute(current);
+	Update<ParametersTable>(base).set<T>(num).Where().ID(current.items.get<CurrentID>().value).Execute();
 }
 
 template<class T>struct Singleton

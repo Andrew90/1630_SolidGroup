@@ -40,3 +40,4 @@ ipch/
 test
 SolidGroup/NumVerOld.txt
 SolidGroup/Version.h
+BaseViewer/Data/

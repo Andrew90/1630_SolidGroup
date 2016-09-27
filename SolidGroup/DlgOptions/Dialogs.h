@@ -178,3 +178,9 @@ class DInputPortsDlg
 public:
 	static void Do(HWND);
 };
+
+class SyncroDlg
+{
+public:
+	static void Do(HWND);
+};

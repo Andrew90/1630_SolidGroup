@@ -35,6 +35,7 @@ template<>struct SelectWithWapper<NullType>
 //--------------------------------------------------------------------------------------
 struct DataBufferX: Compute::Data
 {
+	bool(DataBufferX::*ptr)(int , double &);
 	FILE *f;
 	int dataBufferOffsetMin, dataBufferOffsetMax;
 	int referenceBufferOffsetMin, referenceBufferOffsetMax;
@@ -48,11 +49,16 @@ struct DataBufferX: Compute::Data
 		, referenceBufferOffsetMin(-1)
 		, referenceBufferOffsetMax(-1)
 		, ok(false)
+		, ptr(&DataBufferX::ref)
 	{
 		f = _wfopen(path, L"rb");
 		if(f && fread(&currentOffset, sizeof(currentOffset), 1, f))
 		{
 			ok = true;
+		}
+		if(Singleton<SyncroDataTable>::Instance().items.get<SyncroData>().value)
+		{
+			ptr = &DataBufferX::dataBuffer;
 		}
 	}
 	~DataBufferX()
@@ -81,7 +87,7 @@ struct DataBufferX: Compute::Data
 		}
 		return false;
 	}
-	bool referenceBuffer(int i, double &d)
+	bool ref(int i, double &d)
 	{
 		if(i > currentOffset) return false;
 		if(ok && i > referenceBufferOffsetMin && i < referenceBufferOffsetMax)
@@ -102,6 +108,10 @@ struct DataBufferX: Compute::Data
 			}
 		}
 		return false;
+	}
+	bool referenceBuffer(int i, double &d)
+	{
+		return (this->*ptr)(i, d);
 	}
 };
 void AutomaticOptionsTresholds::SubUpdate(wchar_t *letter, unsigned color)

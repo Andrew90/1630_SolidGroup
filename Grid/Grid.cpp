@@ -18,7 +18,7 @@ void GridNotify::Create(HWND hwnd, GridHandlers *h)
 	hWnd = CreateWindowEx(
 		WS_EX_CLIENTEDGE
 		, WC_LISTVIEW, L"",
-		WS_VISIBLE | WS_CHILD | LVS_REPORT 	
+		WS_VISIBLE | WS_CHILD | LVS_REPORT  	 	
 		, 0, 0, 0, 0,
 		hwnd, NULL, hInstance, NULL
 		);
@@ -77,3 +77,12 @@ LRESULT GridNotify::Notify(TNotify &m)
 	return DefWindowProc(m.hwnd, WM_NOTIFY, (WPARAM)m.idCtrl, (LPARAM)m.pnmh);
 }
 //---------------------------------------------------------------------------------------------
+void UpdateRows(HWND h)
+{
+	int i = ListView_GetTopIndex(h);
+	int count =  ListView_GetCountPerPage(h);
+	for(int k = 0; k < count; ++k, ++i)
+	{
+		ListView_Update(h, i);
+	}
+}

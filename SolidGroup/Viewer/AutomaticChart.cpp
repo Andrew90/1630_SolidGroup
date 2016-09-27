@@ -24,7 +24,7 @@ AutomaticChart::AutomaticChart()
 	chart.rect.left = 10;
 	chart.rect.top = 20;
 	chart.offsetAxesBottom = 10;
-	
+
 	label.fontHeight = 15;
 	label = L"";
 	chart.items.get<VThreshold>().owner = this;
@@ -39,7 +39,7 @@ void AutomaticChart::operator()(TSize &l)
 		if(backScreen->GetWidth() < l.Width || backScreen->GetHeight() < l.Height)
 		{
 			delete backScreen;
-		    backScreen = new Bitmap(l.Width, l.Height);
+			backScreen = new Bitmap(l.Width, l.Height);
 		}
 	}
 	else if(l.Width > 0 && l.Height > 0)
@@ -50,7 +50,7 @@ void AutomaticChart::operator()(TSize &l)
 	{
 		return;
 	}
-    Graphics g(backScreen);
+	Graphics g(backScreen);
 	g.FillRectangle(&SolidBrush(Color(0xffaaaaaa)), 0, 0, l.Width, l.Height); 
 	chart.rect.right = l.Width - 10;
 	chart.rect.bottom = l.Height - 10;
@@ -89,13 +89,13 @@ void AutomaticChart::Repaint()
 	GetClientRect(hWnd, &r);
 	TSize l = {hWnd, WM_SIZE, 0, (WORD)r.right, (WORD)r.bottom};
 	(*this)(l);
-    InvalidateRect(hWnd, NULL, true);
+	InvalidateRect(hWnd, NULL, true);
 }
 //------------------------------------------------------------------------------------------------------------------
 void AutomaticChart::LeftOffset()
 {
 	if(solidData.currentOffset > offset + width)
-	offset += offsetAxesX;
+		offset += offsetAxesX;
 	Repaint();
 }
 //----------------------------------------------------------------------------------------------------
@@ -106,65 +106,51 @@ void AutomaticChart::RightOffset()
 	Repaint();
 }
 //---------------------------------------------------------------------------------------------------
-struct DataBufferXX: Compute::Data
-{
-public:
-	bool dataBuffer(int i, double &d)
-	{
-		d = solidData.dataBuffer[i];
-		return true;
-	}
-	bool referenceBuffer(int i, double &d)
-	{
-		d = solidData.referenceBuffer[i];
-		return true;
-	}
-};
 void AutomaticChart::FrameBorder()
 {
 	bool b = false;
 	int z = 0;
 	int i = offset;
-	for(; z < width && solidData.dataBuffer[i] < 0; ++z, ++i) b = true;
+	DataBufferXX dataBuff;
+	double sample;
+	for(; z < width && dataBuff.referenceBuffer(i, sample) && sample < 0; ++z, ++i) b = true;
 	int start = i;
 	if(!b) return;
 	b = false;
-	for(; z < width && solidData.dataBuffer[i] > 0; ++z, ++i) b = true;
+	for(; z < width && dataBuff.referenceBuffer(i, sample) && sample > 0; ++z, ++i) b = true;
 	int stop = i;
 	if(b)
 	{
-	int (&offsets)[8] = AutomaticThresholdsWindow::Instance().automaticOptionsTresholds.tresholds;
-	double inputs[1024] = {};
+		int (&offsets)[8] = AutomaticThresholdsWindow::Instance().automaticOptionsTresholds.tresholds;
+		double inputs[1024] = {};
 
-	DataBufferXX dataBuff;
-
-	if(compute.SubCompute(
-		offsets
-		, start - 10
-		, stop + 10
-		, dataBuff
-		, inputs
-		))
-	{
-	corel.Compute();
-	wchar_t *s = label.buffer;
-	wsprintf(s, L"<ff>");
-	double length = compute.frequency502 / (2 * 2 * compute.frequenctGenerator);
-	for(int i = 0; i < dimention_of(corel.inputItem.elements); ++i)
-	{
-		int x = start + int((double)length * offsets[i] / 100.0);
-		corel.inputItem.elements[i] = solidData.dataBuffer[x];
-		points[i] = x;
-		s = &s[wcslen(s)];
-		wsprintf(s, L"%s  ", Wchar_from<double>(corel.inputItem.elements[i])());
-	}
-	}
-	else
-	{
-		wsprintf(label.buffer, L"<ff0000>Группа прочности не определена");
-		corel.inputItem.classTube = 0;
-	}
-	AutomaticThresholdsWindow::Instance().chart.Repaint();
+		if(compute.SubCompute(
+			offsets
+			, start - 10
+			, stop + 10
+			, dataBuff
+			, inputs
+			))
+		{
+			corel.Compute();
+			wchar_t *s = label.buffer;
+			wsprintf(s, L"<ff>");
+			double length = compute.frequency502 / (2 * 2 * compute.frequenctGenerator);
+			for(int i = 0; i < dimention_of(corel.inputItem.elements); ++i)
+			{
+				int x = start + int((double)length * offsets[i] / 100.0);
+				corel.inputItem.elements[i] = solidData.dataBuffer[x];
+				points[i] = x;
+				s = &s[wcslen(s)];
+				wsprintf(s, L"%s  ", Wchar_from<double>(corel.inputItem.elements[i])());
+			}
+		}
+		else
+		{
+			wsprintf(label.buffer, L"<ff0000>Группа прочности не определена");
+			corel.inputItem.classTube = 0;
+		}
+		AutomaticThresholdsWindow::Instance().chart.Repaint();
 	}
 }
 
@@ -176,8 +162,8 @@ void AutomaticChart::VThreshold::Draw()
 		, REAL((chart.rect.right - chart.offsetAxesRight) - (chart.rect.left + chart.offsetAxesLeft) - 6)
 		, REAL((chart.rect.bottom - chart.offsetAxesBottom) - (chart.rect.top + chart.offsetAxesTop) - 6)
 		)),
-       CombineModeReplace
-     );
+		CombineModeReplace
+		);
 	for(int i = 0; i < dimention_of(owner->points); ++i)
 	{
 		value = owner->points[i];
@@ -185,5 +171,4 @@ void AutomaticChart::VThreshold::Draw()
 	}
 	chart.g->SetClip(&Region());
 }
-	
-	
+

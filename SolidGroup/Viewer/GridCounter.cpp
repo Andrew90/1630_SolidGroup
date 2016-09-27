@@ -147,5 +147,10 @@ void GridCounterViewer::SetColorToGrid(NMLVCUSTOMDRAW *d)
 //---------------------------------------------------------------------
 void GridCounterViewer::Update()
 {
-	ListView_Update(grid.hWnd, 0);
+	int i = ListView_GetTopIndex(grid.hWnd);
+	int count =  ListView_GetCountPerPage(grid.hWnd);
+	for(int k = 0; k <= count; ++k, ++i)
+	{
+		ListView_Update(grid.hWnd, i);
+	}
 }

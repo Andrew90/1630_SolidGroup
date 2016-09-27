@@ -37,3 +37,5 @@ public:
 	LRESULT Notify(TNotify &);
 };
 
+void UpdateRows(HWND);
+

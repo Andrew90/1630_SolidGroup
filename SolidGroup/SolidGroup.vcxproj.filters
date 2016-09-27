@@ -88,9 +88,6 @@
     <Filter Include="Window\Viewer">
       <UniqueIdentifier>{20b808c1-b093-4315-a188-07bfe261e610}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DlgOptions\MiddleWindow">
-      <UniqueIdentifier>{f3f6beb7-ab75-430e-90e5-325a4dbec1af}</UniqueIdentifier>
-    </Filter>
     <Filter Include="lib">
       <UniqueIdentifier>{57bdc3d1-8572-4f94-9a93-2bd56b179dda}</UniqueIdentifier>
     </Filter>
@@ -646,6 +643,9 @@
     </ClCompile>
     <ClCompile Include="DlgOptions\DInputPortsDlg.cpp">
       <Filter>Dlg</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgOptions\SyncroDlg.cpp">
+      <Filter>DlgOptions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

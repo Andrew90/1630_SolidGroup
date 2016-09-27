@@ -89,7 +89,8 @@ void TresholdWindow::UpdateTresholdGrid()
 	HWND hWnd = Instance().hWnd;
 	if(hWnd)
 	{
-		ListView_Update(Instance().grid.hWnd, 0);
+		//ListView_Update(Instance().grid.hWnd, 0);
+		UpdateRows(hWnd);
 	}
 }
 

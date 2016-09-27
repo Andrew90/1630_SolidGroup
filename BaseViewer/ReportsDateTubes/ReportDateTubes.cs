@@ -15,9 +15,9 @@ namespace BaseViewer
 
         public ReportDateTubes()
         {
-          //  table = new DataTable();
+            //  table = new DataTable();
             ds = new DataSet();
-          //  ds.Tables.Add(table);
+            //  ds.Tables.Add(table);
         }
 
         public int CountRows()
@@ -29,7 +29,7 @@ namespace BaseViewer
         public bool ExportExcel(string path)
         {
             if (null != table && 0 != table.Rows.Count)
-            {                               
+            {
 
                 ds.WriteXml(path);
                 return true;
@@ -40,37 +40,34 @@ namespace BaseViewer
         public void SetGrid(DateTime from, DateTime to, System.Windows.Forms.DataGridView grid)
         {
             var files = Global.BaseFiles(from, to);
-            if (null == files ||``````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````` 0 == files.Count()) return;
+            if (null == files || 0 == files.Count()) return;
             Base b = new Base();
-            //table.Clear();
             table = new DataTable();
             ds.Tables.Add(table);
             table.Columns.Add().DataType = typeof(DateTime);
-            table.Columns.Add().DataType = typeof(int);
-            table.Columns.Add().DataType = typeof(int);
+            table.Columns.Add().DataType = typeof(string);
             table.Columns.Add().DataType = typeof(string);
 
             table.Columns[0].ColumnName = "Время";
-            table.Columns[1].ColumnName = "Номер трубы";
-            table.Columns[2].ColumnName = "Диаметр трубы";
-            table.Columns[3].ColumnName = "Группа прочности";
+            table.Columns[1].ColumnName = "Типоразмер";
+            table.Columns[2].ColumnName = "Группа прочности";
 
-            foreach(var path in files)
+            foreach (var path in files)
             {
-                if(b.Open(path))
+                if (b.Open(path))
                 {
                     System.Data.OleDb.OleDbCommand com = b.conn.CreateCommand();
 
-                    System.Data.OleDb.OleDbParameter from_ = new System.Data.OleDb.OleDbParameter("", System.Data.OleDb.OleDbType.Date);//DBTimeStamp);
+                    System.Data.OleDb.OleDbParameter from_ = new System.Data.OleDb.OleDbParameter("", System.Data.OleDb.OleDbType.Date);
                     from_.Value = from;
                     com.Parameters.Add(from_);
 
-                    System.Data.OleDb.OleDbParameter to_ = new System.Data.OleDb.OleDbParameter("", System.Data.OleDb.OleDbType.Date);//DBTimeStamp);
+                    System.Data.OleDb.OleDbParameter to_ = new System.Data.OleDb.OleDbParameter("", System.Data.OleDb.OleDbType.Date);
                     to_.Value = to;
                     com.Parameters.Add(to_);
 
-                    com.CommandText = 
-                        "SELECT t.CurrentTime, t.CurrentTubes, t.Diameters, t.GroupStrength"
+                    com.CommandText =
+                        "SELECT t.CurrentTime, t.Diameters, t.GroupStrength"
                         + " FROM TubesTable as t"
                         + " WHERE t.CurrentTime>=? and t.CurrentTime<?"
                         ;
@@ -80,9 +77,8 @@ namespace BaseViewer
                     {
                         table.Rows.Add(
                               (DateTime)reader[0]
-                              , (int   )reader[1]
-                              , (int   )reader[2]
-                              , (string)reader[3]
+                              , (string)reader[1]
+                              , (string)reader[2]
                             );
                     }
                 }
@@ -93,7 +89,6 @@ namespace BaseViewer
                 grid.Columns[0].Width = 100;
                 grid.Columns[1].Width = 100;
                 grid.Columns[2].Width = 70;
-                grid.Columns[3].Width = 70;
                 for (int i = 0; i < grid.ColumnCount; ++i)
                 {
                     grid.Columns[i].ReadOnly = true;
@@ -109,7 +104,7 @@ namespace BaseViewer
                     }
                 }
             }
-            grid.Update();            
+            grid.Update();
         }
     }
 }

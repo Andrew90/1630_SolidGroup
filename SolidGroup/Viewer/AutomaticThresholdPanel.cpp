@@ -20,7 +20,7 @@ AutomaticThresholdPanel::AutomaticThresholdPanel(int (&data)[8])
 
 unsigned AutomaticThresholdPanel::operator()(TCreate &l)
 {
-	int y = 20;
+	int y = 30;
 	wchar_t buf[128] = L"Смещение ";
 	wchar_t *s = &buf[wcslen(buf)];
 	for(int i = 0; i < dimention_of(arrHWND); ++i)

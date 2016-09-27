@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Compute.h"
-//#include <map>
 #include <algorithm>
 #include "SolidData.h"
 #include "ChartData.h"
@@ -19,27 +18,12 @@ Compute::Compute()
 {
 }
 
-
 template<class O, class P>struct __tresholds__
 {
 	void operator()(O *o, P *p)
 	{
 		static const int i = TL::IndexOf<ThresholdsTable::items_list, O>::value;
 		p[i] = o->value;
-	}
-};
-
-struct DataBuffer: Compute::Data
-{
-	bool dataBuffer(int i, double &d)
-	{
-		d = solidData.dataBuffer[i];
-		return true;
-	}
-	bool referenceBuffer(int i, double &d)
-	{
-		d = solidData.referenceBuffer[i];
-		return true;
 	}
 };
 
@@ -72,27 +56,50 @@ namespace
 	};
 }
 
+DataBufferXX::DataBufferXX()
+	: ptr(&DataBufferXX::ref)
+{
+	if(Singleton<SyncroDataTable>::Instance().items.get<SyncroData>().value)
+	{
+		ptr = &DataBufferXX::dataBuffer;
+	}
+}
+bool DataBufferXX::dataBuffer(int i, double &d)
+{
+	d = solidData.dataBuffer[i];
+	return true;
+}
+bool DataBufferXX::ref(int i, double &d)
+{
+	d = solidData.referenceBuffer[i];
+	return true;
+}
+bool DataBufferXX::referenceBuffer(int i, double &d)
+{
+	return (this->*ptr)(i, d);
+}
+
 bool Compute::SubCompute(int(&tresholds)[8], int start, int stop, Data &data, double(&inputs)[1024])
 {
 	std::map<int, TItem> mapItems;	
 	double length = frequency502 / (2 * 2 * frequenctGenerator);
 	int count = 0;
-	int k = start;
+	int first = start;
 	int offs[dimention_of(tresholds)];
 	for(int i = 0; i < dimention_of(offs); ++i)
 	{
 		offs[i] = int((double)length * tresholds[i] / 100.0);
 	}
 	double sample;
-	while(data.dataBuffer(k, sample) && sample > 0 && k < stop) ++k;
-	for(int i = k; i < stop;)
+	for(int i = first; i < stop;)
 	{
-		while(data.dataBuffer(i, sample) && sample < 0 && i < stop) ++i;
+		int start = i;
+		while(data.referenceBuffer(i, sample) && sample < 0 && i < stop) ++i;
 		int k = 0;
 		int zeroStart = i;
 		bool b;
-		for(; k < dimention_of(inputs)&&(b = data.dataBuffer(i, sample)) && sample > 0; ++k, ++i);
-		if(!b) break;
+		for(; k < dimention_of(inputs)&&(b = data.referenceBuffer(i, sample)) && sample > 0; ++k, ++i);
+		if(!b || i == start) break;
 		for(int z = 0; z < k && data.dataBuffer(z + zeroStart, sample); ++z)
 		{
 			inputs[z] += sample;
@@ -138,7 +145,7 @@ void Compute::Do()
 		tresholds
 		, solidData.start
 		, solidData.stop
-		, DataBuffer()
+		, DataBufferXX()
 		, inputs
 		);
 }

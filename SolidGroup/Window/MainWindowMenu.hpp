@@ -60,10 +60,10 @@ struct CommunicationOptions{};
 template<>struct TopMenu<MainOptionUnits>
 {
 	typedef TL::MkTlst<	
-		//MenuItem<CommunicationOptions>
 		 MenuItem<SolenoidParametersTableDlg>
 		, MenuItem<AdcInputPortsDlg>
 		, MenuItem<DInputPortsDlg>
+		, MenuItem<SyncroDlg>
 		, Separator<0>
 		, MenuItem<CoordinatesDlg>
 	>::Result list;
@@ -106,6 +106,7 @@ typedef TL::MkTlst<
 	MENU_TEXT(L"Настройки генератора", MenuItem<SolenoidParametersTableDlg>)
 	MENU_TEXT(L"Настройки входов аналоговой платы", MenuItem<AdcInputPortsDlg>)
 	MENU_TEXT(L"Настройки входов дискретной платы", MenuItem<DInputPortsDlg>)
+	MENU_TEXT(L"Синхронизация", MenuItem<SyncroDlg>)
 
 	MENU_TEXT(L"Коэффициенты перерасчёта", MenuItem<OptionsCoefficients>)	
 	MENU_TEXT(L"Пороги опорного сигнала", MenuItem<ReferencePointsDlg>)	
@@ -145,6 +146,8 @@ template<>struct Event<MenuItem<DeadAreaDlg> >{static void Do(HWND h){;}};//
 
 template<>struct Event<MenuItem<AdcInputPortsDlg> >{static void Do(HWND h){AdcInputPortsDlg::Do(h);}};//
 template<>struct Event<MenuItem<DInputPortsDlg> >{static void Do(HWND h){DInputPortsDlg::Do(h);}};//
+
+template<>struct Event<MenuItem<SyncroDlg> >{static void Do(HWND h){SyncroDlg::Do(h);}};//
 
 
 template<>struct Event<MenuItem<InputsDlg> >{static void Do(HWND h){;}};//

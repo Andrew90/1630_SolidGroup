@@ -153,13 +153,14 @@ START:
 
 						sg.Set(count, typeSize, sgName);
 						mainWindow.gridCounter.Update();
+
+						StoredData::Store(typeSize, sgName);
 					}
 					topLabelViewer.SetMessage((wchar_t *)s.c_str());
 					if(BST_CHECKED == Button_GetCheck(mainWindow.hStoredCheckBox))
 					{
 						StoreDataFile();
-					}
-
+					}					
 					goto START;
 				}
 

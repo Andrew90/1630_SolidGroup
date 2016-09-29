@@ -9,10 +9,10 @@ PARAM_TITLE(MaxAxesY  , L"Максимальная координата Y")
 PARAM_TITLE(MinAxesY  , L"Минимальная координата Y")
 
 MIN_VALUE(OffsetAxesX, 1)
-MAX_VALUE(OffsetAxesX, 1000)
+MAX_VALUE(OffsetAxesX, 10000)
 
 MIN_VALUE(FrameWidth, 20)
-MAX_VALUE(FrameWidth, 1000)
+MAX_VALUE(FrameWidth, 50000)
 
 MIN_EQUAL_VALUE(MaxAxesY, -10)
 MAX_EQUAL_VALUE(MaxAxesY, 10)

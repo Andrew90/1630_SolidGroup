@@ -4,5 +4,5 @@ class UpdateMainChart
 {
 public:
 	static HWND hWnd;
-	static void Update();
+	static void Update(int);
 };

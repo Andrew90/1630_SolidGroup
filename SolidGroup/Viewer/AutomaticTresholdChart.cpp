@@ -16,25 +16,25 @@ AutomaticTresholdChart::AutomaticTresholdChart()
 	chart.rect.left = 10;
 	chart.rect.top = 20;
 	chart.offsetAxesBottom = 10;
-	
+
 	chart.minAxesX = 1;
 	chart.maxAxesX = 8;
-	
+
 	label.fontHeight = 15;
-	
+
 }
 //----------------------------------------------------------------------------------------------------
 #pragma warning(disable : 4996)
 void AutomaticTresholdChart::operator()(TSize &l)
 {
 	if(l.resizing == SIZE_MINIMIZED || 0 == l.Width || 0 == l.Height) return;	
-	
+
 	if(NULL != backScreen)
 	{
 		if(backScreen->GetWidth() < l.Width || backScreen->GetHeight() < l.Height)
 		{
 			delete backScreen;
-		    backScreen = new Bitmap(l.Width, l.Height);
+			backScreen = new Bitmap(l.Width, l.Height);
 		}
 	}
 	else if(l.Width > 0 && l.Height > 0)
@@ -45,7 +45,7 @@ void AutomaticTresholdChart::operator()(TSize &l)
 	{
 		return;
 	}
-    Graphics g(backScreen);
+	Graphics g(backScreen);
 	g.FillRectangle(&SolidBrush(Color(0xffaaaaaa)), 0, 0, l.Width, l.Height);   
 	chart.rect.right = l.Width - 10;
 	chart.rect.bottom = l.Height - 10;
@@ -60,14 +60,15 @@ void AutomaticTresholdChart::operator()(TSize &l)
 		wsprintf(s, L"<%8x>%s ", i->second->color, i->second->Name.c_str());
 		s = &s[wcslen(s)]; 
 	}
-	
+
 	if(0 != corel.inputItem.classTube)
 	{
-	wsprintf(s, L" <ff0000>Результат %s <ff>%s"
-		, (wchar_t *)corel.classTubeItem[corel.inputItem.classTube]->Name.c_str()
-		,  Wchar_from<double>(corel.inputItem.correlation)()
-		);
-	//corel.inputItem.classTube = 0;
+		Corel::ClassTubeItem *tube = corel.classTubeItem[corel.inputItem.classTube];
+		wsprintf(s, L" <ff>Результат <%8x>%s <ff>%s"
+			, tube->color
+			, tube->Name.c_str()
+			,  Wchar_from<double>(corel.inputItem.correlation)()
+			);
 	}
 	else
 	{
@@ -98,7 +99,7 @@ void AutomaticTresholdChart::Repaint()
 	GetClientRect(hWnd, &r);
 	TSize l = {hWnd, WM_SIZE, 0, (WORD)r.right, (WORD)r.bottom};
 	(*this)(l);
-    InvalidateRect(hWnd, NULL, true);
+	InvalidateRect(hWnd, NULL, true);
 }
 //---------------------------------------------------------------------------------------------------------
 AutomaticTresholdChart::Lines::Lines(Chart &chart) : LineSeries(chart), lines(NULL){}
@@ -124,7 +125,7 @@ AutomaticTresholdChart::FrameLine::FrameLine(Chart &chart) : LineSeries(chart)
 void AutomaticTresholdChart::FrameLine::Draw()
 {
 
-		SetData((double *)corel.inputItem.elements, dimention_of(corel.inputItem.elements));
-		LineSeries::Draw();
+	SetData((double *)corel.inputItem.elements, dimention_of(corel.inputItem.elements));
+	LineSeries::Draw();
 }
 

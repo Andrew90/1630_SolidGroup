@@ -134,7 +134,7 @@ typedef TL::MkTlst<
 
 
 template<>struct Event<MenuItem<MainExit> >{static void Do(HWND h){DestroyWindow(h);}};//выход из программы
-template<>struct Event<MenuItem<Compute> >{static void Do(HWND h){compute.Recalculation();(*Automat::dataChanged)();}};//пересчёт
+template<>struct Event<MenuItem<Compute> >{static void Do(HWND h){compute.Recalculation();(*Automat::dataChanged)(0);}};//пересчёт
 template<>struct Event<MenuItem<MainAbout> >{static void Do(HWND h){AboutWindow::Do(h);}};
 template<>struct Event<MenuItem<MainThresholdOption> >{static void Do(HWND h){;}};//настройка порогов
 template<>struct Event<MenuItem<L502ParamDlg> >{static void Do(HWND h){L502ParamDlg::Do(h);}};//настройка Lan10m8
@@ -155,7 +155,7 @@ template<>struct Event<MenuItem<OutputsDlg> >{static void Do(HWND h){;}};//
 template<>struct Event<MenuItem<Descriptor1730Dlg> >{static void Do(HWND h){;}};//
 
 template<>struct Event<MenuItem<SaveDateFile> >{static void Do(HWND h){SaveDateFile::Do(h);}};//
-template<>struct Event<MenuItem<LoadDateFile> >{static void Do(HWND h){LoadDateFile::Do(h);compute.Recalculation();(*Automat::dataChanged)();}};//
+template<>struct Event<MenuItem<LoadDateFile> >{static void Do(HWND h){LoadDateFile::Do(h);compute.Recalculation();(*Automat::dataChanged)(0);}};//
 
 template<>struct Event<MenuItem<MainCreateTypesize> >{static void Do(HWND h){SelectTypeSizeNew::Do(h);}};//
 template<>struct Event<MenuItem<MainDeleteTypeSize> >{static void Do(HWND h){SelectTypeSizeDelete::Do(h);}};//

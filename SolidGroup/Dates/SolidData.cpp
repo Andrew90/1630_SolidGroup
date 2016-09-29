@@ -9,23 +9,6 @@
 SolidData::SolidData()
 {
 	Clear();
-//test
-#if 0
-	currentOffset = 5000;
-	double dx = 2 * 3.14 / 300;
-	double x = 0;
-	for(int i = 0; i < MAX_ZONES_COUNT; ++i)
-	{
-		x += 0.1;
-		if(x > 10) x = 0;
-	    referenceBuffer[i] = x;
-		dataBuffer[i] = sin(dx * i * 5) * 3 + 4;
-	}
-
-	l502Signal.Set(dataBuffer, 300, 300);
-	l502Reference.Set(referenceBuffer, 300, 300);
-#endif
-	//test
 }
 void SolidData::Clear()
 {
@@ -42,6 +25,9 @@ void SolidData::SetData(double *data, int count, int start)
 		b = &referenceBuffer[currentOffset];
 	    a = &dataBuffer[currentOffset];
 	}
+
+	count &= ~1;
+
 	for(double *i = data, *stop = &data[count]; i < stop;)
 	{
 		*a = *i;

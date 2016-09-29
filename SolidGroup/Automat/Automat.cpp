@@ -18,7 +18,7 @@ namespace Automat
 {	
 	L502SolidGroup &x502 = Singleton<L502SolidGroup>::Instance(); 
 	HANDLE hThread, hStart, hStop;
-	void(*dataChanged)();
+	void(*dataChanged)(int);
 
 	unsigned &MODULE_ON = (unsigned &)Singleton<DInputsParametersTable>::Instance().items.get<ModuleOn>().value;
 	unsigned &TUBE_IN   = (unsigned &)Singleton<DInputsParametersTable>::Instance().items.get<TubeIn>().value;
@@ -27,7 +27,7 @@ namespace Automat
 
 	DWORD WINAPI __Do__(LPVOID);
 
-	void Crock(){};
+	void Crock(int){};
 
 	void Init()
 	{
@@ -67,6 +67,7 @@ namespace Automat
 
 	DWORD WINAPI __Do__(LPVOID)
 	{
+		SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
 		while(true)
 		{
 START:
@@ -129,21 +130,19 @@ START:
 				{
 					solidData.SetData(data, count, startChennel);
 					dprint("count samples %d", count);
-					(*dataChanged)();
+					(*dataChanged)(1000);
 				}
 				else
 				{
 					compute.Do();
-					(*dataChanged)();
+					(*dataChanged)(0);
 
-					std::wstring s = L"<ff>Группа прочности<ff0000>";
+					wchar_t buf[1024] = L"";
+
 					if(0 != corel.inputItem.classTube && corel.classTubeItem[corel.inputItem.classTube])
 					{
-						wchar_t *sgName = (wchar_t *)corel.classTubeItem[corel.inputItem.classTube]->Name.c_str();
-						s += sgName;
-
-						s += L" ";
-						s += Wchar_from<double>(corel.inputItem.correlation)();
+						Corel::ClassTubeItem *tube	= corel.classTubeItem[corel.inputItem.classTube];
+						wchar_t *sgName = (wchar_t *)tube->Name.c_str();
 
 						SolidCounter sg;
 						wchar_t *typeSize = Singleton<ParametersTable>::Instance().items.get<NameParam>().value;
@@ -155,8 +154,15 @@ START:
 						mainWindow.gridCounter.Update();
 
 						StoredData::Store(typeSize, sgName);
+
+						wsprintf(buf,  L"<ff>Группа прочности %s <ff>%s"
+							, sgName
+							,  Wchar_from<double>(corel.inputItem.correlation)()
+							);						
 					}
-					topLabelViewer.SetMessage((wchar_t *)s.c_str());
+
+					topLabelViewer.SetMessage(buf);
+
 					if(BST_CHECKED == Button_GetCheck(mainWindow.hStoredCheckBox))
 					{
 						StoreDataFile();

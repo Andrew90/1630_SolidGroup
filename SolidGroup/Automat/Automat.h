@@ -2,7 +2,7 @@
 
 namespace Automat
 {
-	extern void(*dataChanged)();
+	extern void(*dataChanged)(int);
 	void Init();
 	void Destroy();
 	void Start();

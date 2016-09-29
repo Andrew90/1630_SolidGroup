@@ -13,7 +13,7 @@ namespace BaseViewer
     {
         public static String path
         {
-             get { return "..\\Data\\"; }
+             get { return ".\\Data\\"; }
         }
         private static void CreateBase(Base b, String path)
         {

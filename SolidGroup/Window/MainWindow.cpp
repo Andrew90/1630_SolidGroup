@@ -69,8 +69,8 @@ void MainWindow::operator()(TGetMinMaxInfo &m)
 	{
 		m.pMinMaxInfo->ptMinTrackSize.x = 600;
 		m.pMinMaxInfo->ptMinTrackSize.y = 300;
-		m.pMinMaxInfo->ptMaxTrackSize.x = 2000;
-		m.pMinMaxInfo->ptMaxTrackSize.y = 500;		
+		//m.pMinMaxInfo->ptMaxTrackSize.x = 2000;
+		//m.pMinMaxInfo->ptMaxTrackSize.y = 500;		
 	}		
 }
 //------------------------------------------------------------------------

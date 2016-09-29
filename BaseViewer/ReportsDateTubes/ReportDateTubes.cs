@@ -44,7 +44,7 @@ namespace BaseViewer
             Base b = new Base();
             table = new DataTable();
             ds.Tables.Add(table);
-            table.Columns.Add().DataType = typeof(DateTime);
+            table.Columns.Add().DataType = typeof(string);
             table.Columns.Add().DataType = typeof(string);
             table.Columns.Add().DataType = typeof(string);
 
@@ -76,7 +76,7 @@ namespace BaseViewer
                     while (reader.Read())
                     {
                         table.Rows.Add(
-                              (DateTime)reader[0]
+                              ((DateTime)reader[0]).ToString("dd.MM.yyyy HH:mm:ss")
                               , (string)reader[1]
                               , (string)reader[2]
                             );
@@ -86,7 +86,7 @@ namespace BaseViewer
             if (0 != table.Rows.Count)
             {
                 grid.DataSource = table;
-                grid.Columns[0].Width = 100;
+                grid.Columns[0].Width = 120;
                 grid.Columns[1].Width = 100;
                 grid.Columns[2].Width = 70;
                 for (int i = 0; i < grid.ColumnCount; ++i)

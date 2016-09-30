@@ -155,7 +155,8 @@ START:
 
 						StoredData::Store(typeSize, sgName);
 
-						wsprintf(buf,  L"<ff>Группа прочности %s <ff>%s"
+						wsprintf(buf,  L"<ff>Группа прочности <%8x>%s <ff>%s"
+							, tube->color
 							, sgName
 							,  Wchar_from<double>(corel.inputItem.correlation)()
 							);						

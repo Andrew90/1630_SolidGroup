@@ -16,6 +16,7 @@
 #include "Corel.h"
 #include "templates.hpp"
 #include "Config.h"
+#include "AutomaticOptionsTresholds.h"
 
 //------------------------------------------------------------------------------------------------------
 using namespace Gdiplus;
@@ -282,6 +283,7 @@ void TresholdPanelViewer::AddNameBtn   (TCommand &m)
 			{
 				t = new Corel::ClassTubeItem;
 				t->Name = editBuf;
+				t->color = AutomaticOptionsTresholds::ColorThreshold(corel.classTubeItem.size());
 				corel.classTubeItem[id] = t;
 			}
 			//ListView_Update(o->grid.hWnd, 0);

@@ -7,6 +7,7 @@
 #include "Base.hpp"
 #include "Corel.h"
 #include "SolidData.h"
+#include "AutomaticOptionsTresholds.h"
 
 #include "DebugMess.h"
 
@@ -281,6 +282,8 @@ void Corel::Init()
 			int key = rec->Fields->GetItem(L"ID")->GetValue();
 			i->Name = _bstr_t(rec->Fields->GetItem(Name().name())->GetValue());
 			classTubeItem[key] = i;
+			int count = classTubeItem.size() - 1;
+			classTubeItem[key]->color = AutomaticOptionsTresholds::ColorThreshold(count);
 			rec->MoveNext(); 
 		}
 	}
@@ -306,7 +309,7 @@ void Corel::Init()
 void Corel::NewTypeSizeItem(int key, wchar_t *name)
 {
 	TypeSizeItem *t = new TypeSizeItem;
-	t->Name = name;
+	t->Name = name;	
 	typeSizeItem[key] = t;
 }
 
@@ -366,6 +369,7 @@ void Corel::InsertElement(SolidTubeItem &item)
 				wsprintf(&path[wcslen(path)], L"\\ConfigThresholds\\%s\\%s\\"
 					, (wchar_t *)corel.typeSizeItem[item.typeSize]->Name.c_str()
 					, corel.ClassTubeName());
+				CreateDirectory(path, NULL);
 				time_t t = time(0);
 				struct tm *now = localtime( & t );
 				wchar_t *s = &path[wcslen(path)];

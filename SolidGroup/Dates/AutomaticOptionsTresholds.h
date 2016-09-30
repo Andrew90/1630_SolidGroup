@@ -12,6 +12,7 @@ public:
 	int tresholds[8];
 	void Init();
 	void Update();
+	static unsigned ColorThreshold(int);
 private:
 	void SubUpdate(wchar_t *, unsigned);
 };

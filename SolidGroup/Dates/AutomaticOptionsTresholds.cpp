@@ -181,6 +181,12 @@ unsigned __color__[] = {
 	, 0xffcf641e
 };
 
+unsigned AutomaticOptionsTresholds::ColorThreshold(int i )
+{
+	i %= dimention_of(__color__);
+	return __color__[i];
+}
+
 void AutomaticOptionsTresholds::Init()
 {
 	typedef AutomaticOptionsTresholdsNameSpace::SelectWithWapper<ThresholdsTable::items_list>::Result list;
@@ -211,7 +217,7 @@ void AutomaticOptionsTresholds::Init()
 		{
 			wsprintf(s, L"%s\\", i->second->Name.c_str());
 			CreateDirectory(path, NULL);	
-			i->second->color = __color__[k];
+			i->second->color = ColorThreshold(k);
 			++k;
 		}
 		Update();

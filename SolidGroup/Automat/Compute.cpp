@@ -157,8 +157,11 @@ void Compute::Recalculation()
 	s += L". <ff>Результат контроля. Группа прочности ";
 	if(0 != corel.inputItem.classTube)
 	{
+		wchar_t buf[32];
+		wsprintf(buf, L"<%8x>", corel.classTubeItem[corel.inputItem.classTube]->color);
+		s += buf;
 		s += corel.classTubeItem[corel.inputItem.classTube]->Name;	
-		s += L" ";
+		s += L" <ff>";
 		s += Wchar_from<double>(corel.inputItem.correlation)();
 	}
 	else

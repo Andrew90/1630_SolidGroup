@@ -113,36 +113,51 @@ void AutomaticChart::FrameBorder()
 	int i = offset;
 	DataBufferXX dataBuff;
 	double sample;
-	for(; z < width && dataBuff.referenceBuffer(i, sample) && sample < 0; ++z, ++i) b = true;
+	for(; z < width && dataBuff.referenceBuffer(i, sample) && sample > 0; ++z, ++i) b = true;
 	int start = i;
 	if(!b) return;
 	b = false;
-	for(; z < width && dataBuff.referenceBuffer(i, sample) && sample > 0; ++z, ++i) b = true;
+	for(; z < width && dataBuff.referenceBuffer(i, sample) && sample < 0; ++z, ++i) b = true;
 	int stop = i;
 	if(b)
 	{
 		int (&offsets)[8] = AutomaticThresholdsWindow::Instance().automaticOptionsTresholds.tresholds;
-		double inputs[1024] = {};
+		//double inputs[8] = {};
 
 		if(compute.SubCompute(
 			offsets
 			, start - 10
-			, stop + 10
+			, stop// + 10
 			, dataBuff
-			, inputs
+		//	, inputs
 			))
 		{
-			corel.Compute();
+			//		corel.Compute();
+			double length = compute.frequency502 / (2 * 2 * compute.frequenctGenerator);
+			int x = start + int((double)length * offsets[0] / 100.0);
+			double y0;
+			dataBuff.referenceBuffer(x - 1, y0);
+			double y1;
+			dataBuff.referenceBuffer(x, y1);
+
+			double dY = y0/(y1 - y0);
+			if(dY < 0) dY = -dY;
+
 			wchar_t *s = label.buffer;
 			wsprintf(s, L"<ff>");
-			double length = compute.frequency502 / (2 * 2 * compute.frequenctGenerator);
+			
 			for(int i = 0; i < dimention_of(corel.inputItem.elements); ++i)
 			{
-				int x = start + int((double)length * offsets[i] / 100.0);
-				corel.inputItem.elements[i] = solidData.dataBuffer[x];
+				x = start + int((double)length * offsets[i] / 100.0);
+				//corel.inputItem.elements[i] = i;//solidData.dataBuffer[x];
 				points[i] = x;
 				s = &s[wcslen(s)];
-				wsprintf(s, L"%s  ", Wchar_from<double>(corel.inputItem.elements[i])());
+				//wsprintf(s, L"%s  ", Wchar_from<double>(corel.inputItem.elements[i])());
+				//wsprintf(s, L"%s  ", Wchar_from<double>(solidData.dataBuffer[x])());
+				dataBuff.dataBuffer(x - 1, y0);
+				dataBuff.dataBuffer(x, y1);
+				double y = y0 + dY * (y1 - y0);
+				wsprintf(s, L"%s  ", Wchar_from<double>(y)());
 			}
 		}
 		else

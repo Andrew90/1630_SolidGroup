@@ -14,7 +14,7 @@ public:
 	Compute();
 	void Do();
 	void Recalculation();
-	bool SubCompute(int(&)[8], int start, int stop, Data &, double(&)[1024]);
+	bool SubCompute(int(&)[8], int start, int stop, Data &);
 };
 
 struct DataBufferXX: Compute::Data

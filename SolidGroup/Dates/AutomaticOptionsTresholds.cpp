@@ -131,13 +131,13 @@ void AutomaticOptionsTresholds::SubUpdate(wchar_t *letter, unsigned color)
 				{
 					int start = int(0.1 * dataBuff.currentOffset);
 					int stop = dataBuff.currentOffset - start;
-					double inputs[1024] = {};
+			//		double inputs[8] = {};
 					compute.SubCompute(
 						tresholds
 						, start
 						, stop
 						, dataBuff
-						, inputs
+						//, inputs
 						);
 					Data data;
 					memcpy(data.tresholds, corel.inputItem.elements, sizeof(data.tresholds));

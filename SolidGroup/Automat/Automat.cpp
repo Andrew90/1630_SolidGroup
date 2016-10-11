@@ -111,6 +111,7 @@ START:
 			}
 
 			mainWindow.BottomLabel(0, L"—бор данных");
+			mainWindow.colorPanel.Clear();
 
 			while(true)
 			{
@@ -159,7 +160,12 @@ START:
 							, tube->color
 							, sgName
 							,  Wchar_from<double>(corel.inputItem.correlation)()
-							);						
+							);	
+
+						mainWindow.colorPanel.SetText(
+							(wchar_t *)corel.classTubeItem[corel.inputItem.classTube]->Name.c_str()
+							, corel.classTubeItem[corel.inputItem.classTube]->color
+							);
 					}
 
 					topLabelViewer.SetMessage(buf);

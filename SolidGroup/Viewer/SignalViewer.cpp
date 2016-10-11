@@ -22,37 +22,37 @@ SignalViewer::CursorLabel::CursorLabel(SignalViewer &o, double (&d)[1024])
 	label.left = 30;
 }
 #pragma warning(disable : 4996)
-bool SignalViewer::CursorLabel::Draw(TMouseMove &l, VGraphics &g)
-{
-	//char buf[128];
-	////double dX = (double)(owner.chart.rect.right - owner.chart.rect.left - owner.chart.offsetAxesLeft - owner.chart.offsetAxesRight) / (owner.chart.maxAxesX - owner.chart.minAxesX);
-//	double x = owner.chart.rect.left + owner.chart.offsetAxesLeft - dX / 2;
-//	double thickness = owner.chart.items.get<VCursor2>().value - owner.chart.items.get<VCursor1>().value;
-//	thickness *= owner.coefficientA;
-	//thickness += owner.coefficientB;
-	//if(thickness < 0) thickness = -thickness;
-	//char bufTh[128];
-	//bufTh[0] = 0;
-	/*
-	if(thickness > 3.0)
-	{
-		sprintf(bufTh, "<ff0000> ÒÎËÙÈÍÀ %.2f ", thickness);
-	}
-	
-	unsigned leftOffs = unsigned(double(l.x - x) / dX);
-	if(leftOffs > 0 && dimention_of(data) >= leftOffs)
-	{
-		double y = data[leftOffs - 1];
-		sprintf(buf, "%s<0xff>X <0xff0000>%d   <0xff>Y <0xff0000>%0.1f", bufTh, leftOffs, y - 127);
-		RECT r;
-		GetClientRect(l.hwnd, &r);
-		label = buf;
-		label.Draw(g());
-		return true;
-	}
-	*/
-	return false;
-}
+//bool SignalViewer::CursorLabel::Draw(TMouseMove &l, VGraphics &g)
+//{
+//	//char buf[128];
+//	////double dX = (double)(owner.chart.rect.right - owner.chart.rect.left - owner.chart.offsetAxesLeft - owner.chart.offsetAxesRight) / (owner.chart.maxAxesX - owner.chart.minAxesX);
+////	double x = owner.chart.rect.left + owner.chart.offsetAxesLeft - dX / 2;
+////	double thickness = owner.chart.items.get<VCursor2>().value - owner.chart.items.get<VCursor1>().value;
+////	thickness *= owner.coefficientA;
+//	//thickness += owner.coefficientB;
+//	//if(thickness < 0) thickness = -thickness;
+//	//char bufTh[128];
+//	//bufTh[0] = 0;
+//	/*
+//	if(thickness > 3.0)
+//	{
+//		sprintf(bufTh, "<ff0000> ÒÎËÙÈÍÀ %.2f ", thickness);
+//	}
+//	
+//	unsigned leftOffs = unsigned(double(l.x - x) / dX);
+//	if(leftOffs > 0 && dimention_of(data) >= leftOffs)
+//	{
+//		double y = data[leftOffs - 1];
+//		sprintf(buf, "%s<0xff>X <0xff0000>%d   <0xff>Y <0xff0000>%0.1f", bufTh, leftOffs, y - 127);
+//		RECT r;
+//		GetClientRect(l.hwnd, &r);
+//		label = buf;
+//		label.Draw(g());
+//		return true;
+//	}
+//	*/
+//	return false;
+//}
 
 SignalViewer::SignalViewer()
 	: backScreen(NULL)
@@ -62,7 +62,7 @@ SignalViewer::SignalViewer()
 	, dataMax(l502Signal.dataMax)
 	, referenceMin(l502Reference.dataMin)
 	, referenceMax(l502Reference.dataMax)
-	, cursor(chart)
+//	, cursor(chart)
 	, cursorLabel(*this, dataMin)
     , signalLength(l502Signal.count)
 	, mouseMove(true)
@@ -75,7 +75,7 @@ SignalViewer::SignalViewer()
 	chart.maxAxesX = 99;
 	chart.minAxesY = -10;
 	chart.maxAxesY = 10;
-	cursor.SetMouseMoveHandler(&cursorLabel, &CursorLabel::Draw);
+	//cursor.SetMouseMoveHandler(&cursorLabel, &CursorLabel::Draw);
 }
 //----------------------------------------------------------------------------------------------------
 #pragma warning(disable : 4996)
@@ -124,58 +124,58 @@ void SignalViewer::operator()(TPaint &l)
 	{		
 		Graphics g(hdc);		
 		g.DrawCachedBitmap(&CachedBitmap(backScreen, &g), 0, 0);
-		cursor.VerticalCursor(storedMouseMove, PaintGraphics(g));
+	//	cursor.VerticalCursor(storedMouseMove, PaintGraphics(g));
 	}
 	EndPaint(l.hwnd, &p);
 }
 //-----------------------------------------------------------------------------------------------------
-void SignalViewer::operator()(TMouseMove &l)
-{
-	if(mouseMove)
-	{
-		if(cursor.VerticalCursor(l, HDCGraphics(l.hwnd, backScreen)))
-		{
-			storedMouseMove = l;
-		}
-	}
-}
-//----------------------------------------------------------------------------------------------------
-void SignalViewer::operator()(TLButtonDown &l)
-{
-	//chart.items.get<VCursor1>().SetCoordinate(*(POINTS *)&storedMouseMove.x);
-	RepaintWindow(l.hwnd);
-}
-//----------------------------------------------------------------------------------------------------
-void SignalViewer::operator()(TRButtonDown &l)
-{
-	//chart.items.get<VCursor2>().SetCoordinate(*(POINTS *)&storedMouseMove.x);
-	RepaintWindow(l.hwnd);
-}
-//----------------------------------------------------------------------------------------------------
-void SignalViewer::operator()(TLButtonDbClk &l)
-{
-	mouseMove = true;
-	if(cursor.VerticalCursor(*(TMouseMove *)&l, HDCGraphics(l.hwnd, backScreen)))
-	{
-		storedMouseMove.x = l.x; 
-	}
-}
-//----------------------------------------------------------------------------------------------------
-void SignalViewer::operator()(TMouseWell &l)
-{
-	RECT r;
-	GetWindowRect(l.hwnd, &r);
-	if(InRect(l.x, l.y, r))
-	{
-		mouseMove = false;
-		storedMouseMove.x -= l.delta / 120;
-		cursor.VerticalCursor(storedMouseMove, HDCGraphics(storedMouseMove.hwnd, backScreen));
-	}
-}
-//-----------------------------------------------------------------------------------------------------
-void SignalViewer::operator()(TDestroy &l)
-{
-	//if(NULL != backScreen)delete backScreen;
-}
-//-----------------------------------------------------------------------------------------------------
+//void SignalViewer::operator()(TMouseMove &l)
+//{
+//	if(mouseMove)
+//	{
+//		if(cursor.VerticalCursor(l, HDCGraphics(l.hwnd, backScreen)))
+//		{
+//			storedMouseMove = l;
+//		}
+//	}
+//}
+////----------------------------------------------------------------------------------------------------
+//void SignalViewer::operator()(TLButtonDown &l)
+//{
+//	//chart.items.get<VCursor1>().SetCoordinate(*(POINTS *)&storedMouseMove.x);
+//	RepaintWindow(l.hwnd);
+//}
+////----------------------------------------------------------------------------------------------------
+//void SignalViewer::operator()(TRButtonDown &l)
+//{
+//	//chart.items.get<VCursor2>().SetCoordinate(*(POINTS *)&storedMouseMove.x);
+//	RepaintWindow(l.hwnd);
+//}
+////----------------------------------------------------------------------------------------------------
+//void SignalViewer::operator()(TLButtonDbClk &l)
+//{
+//	mouseMove = true;
+//	if(cursor.VerticalCursor(*(TMouseMove *)&l, HDCGraphics(l.hwnd, backScreen)))
+//	{
+//		storedMouseMove.x = l.x; 
+//	}
+//}
+////----------------------------------------------------------------------------------------------------
+//void SignalViewer::operator()(TMouseWell &l)
+//{
+//	RECT r;
+//	GetWindowRect(l.hwnd, &r);
+//	if(InRect(l.x, l.y, r))
+//	{
+//		mouseMove = false;
+//		storedMouseMove.x -= l.delta / 120;
+//		cursor.VerticalCursor(storedMouseMove, HDCGraphics(storedMouseMove.hwnd, backScreen));
+//	}
+//}
+////-----------------------------------------------------------------------------------------------------
+//void SignalViewer::operator()(TDestroy &l)
+//{
+//	//if(NULL != backScreen)delete backScreen;
+//}
+////-----------------------------------------------------------------------------------------------------
 

@@ -27,11 +27,13 @@
 
 
 #include "DebugMess.h"
+//-------------------------------------------------------------------------
+MainWindow::MainWindow(): created(false){}
 
 //------------------------------------------------------------------------
 void MainWindow::operator()(TSize &m)
 {
-	if(m.resizing == SIZE_MINIMIZED || 0 == m.Width || 0 == m.Height) return;
+	if(!created || m.resizing == SIZE_MINIMIZED || 0 == m.Width || 0 == m.Height) return;
 	MoveWindow(hToolBar, 0, 0, 0, 0, false);
 	MoveWindow(hStatusWindow, 0, 0, 0, 0, false);
 
@@ -49,13 +51,23 @@ void MainWindow::operator()(TSize &m)
 
 
 	MoveWindow(hPaintCheckBox, width + 300, 52, 525, 20, TRUE);
+	MoveWindow(gridCounter.grid.hWnd, width + 400 + 30,  2, 145, rt.bottom - rt.top - 2 - 2, TRUE);
+
 	static const int topLabelHeight = 28;
 	int y = rt.bottom - rt.top - 1;
 	int t = (r.bottom - rs.bottom - rt.bottom + rt.top + 2 - topLabelHeight);
+	int tt = t;
+	if(t < 500)
+	{
+			t /= 3;
+			t *= 2;
+	}
+	else t = 250;
 	MoveWindow(topLabelViewer.hWnd , 0, y, r.right, topLabelHeight, true);
 	y += topLabelHeight;
 	MoveWindow(signalViewer.hWnd , 0, y, r.right, t, true);
-	MoveWindow(gridCounter.grid.hWnd, width + 400 + 30,  2, 145, rt.bottom - rt.top - 2 - 2, TRUE);
+	y += t;
+	MoveWindow(colorPanel.hWnd , 0, y, r.right, tt - t, true);
 }
 //------------------------------------------------------------------------
 void MainWindow::operator()(TCommand &m)
@@ -68,7 +80,7 @@ void MainWindow::operator()(TGetMinMaxInfo &m)
 	if(NULL != m.pMinMaxInfo)
 	{
 		m.pMinMaxInfo->ptMinTrackSize.x = 600;
-		m.pMinMaxInfo->ptMinTrackSize.y = 300;
+		m.pMinMaxInfo->ptMinTrackSize.y = 400;
 		//m.pMinMaxInfo->ptMaxTrackSize.x = 2000;
 		//m.pMinMaxInfo->ptMaxTrackSize.y = 500;		
 	}		
@@ -137,9 +149,10 @@ unsigned MainWindow::operator()(TCreate &m)
 
 	hStatusWindow = CreateStatusWindow(WS_CHILD | WS_VISIBLE, NULL, m.hwnd, 0);
 	int pParts[] = {550,900, 3000};
-	SendMessage(hStatusWindow, SB_SETPARTS, 3, (LPARAM)pParts);
+	
 	signalViewer.hWnd = CreateChildWindow(m.hwnd, (WNDPROC)&Viewer<SignalViewer>::Proc, L"SignalViewer", &signalViewer);
 	topLabelViewer.hWnd = CreateChildWindow(m.hwnd, (WNDPROC)&Viewer<TopLabelViewer>::Proc, L"TopLabelWindow", &topLabelViewer);
+	colorPanel.hWnd = CreateChildWindow(m.hwnd, (WNDPROC)&Viewer<ColorPanel>::Proc, L"ColorPanel", &colorPanel);
 	UpdateMainChart::hWnd = m.hwnd;	
 #endif
 	topLabelViewer.SetMessage(L"<ff>Установка остановлена");
@@ -147,6 +160,8 @@ unsigned MainWindow::operator()(TCreate &m)
 	wchar_t *typeSize = Singleton<ParametersTable>::Instance().items.get<NameParam>().value;
 	sg.Load(typeSize);
 	gridCounter.Create(hToolBar);
+	created = true;
+	SendMessage(hStatusWindow, SB_SETPARTS, 3, (LPARAM)pParts);
 	return 0;
 }
 //-------------------------------------------------------------------------------------------

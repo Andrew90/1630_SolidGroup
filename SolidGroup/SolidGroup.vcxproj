@@ -186,6 +186,7 @@
     <ClInclude Include="Viewer\ZonesViewer.h" />
     <ClInclude Include="Window\AutomaticDlg.h" />
     <ClInclude Include="Window\AutomaticThresholdsWindow.h" />
+    <ClInclude Include="Window\ColorPanel\ColorPanel.h" />
     <ClInclude Include="Window\MainWindow.h" />
     <ClInclude Include="Window\MainWindowMenu.hpp" />
     <ClInclude Include="Window\MainWindowToolBar.h" />
@@ -279,6 +280,7 @@
     <ClCompile Include="Window\AutomaticThresholdsWindow.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">GlobalHandlers;StoredData;ChangeOut;CommunicationTube;../tcp;../Grid;../Base;../L502_SolidGroup;../1730;Dates;Viewer;..\Graphics;1730;DebugApp;ArchiveEvents;Automat;Messages;..\Dlg;DlgOptions;../debug_tools;window;../window_tool;../base;../templates;AppBase;</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="Window\ColorPanel\ColorPanel.cpp" />
     <ClCompile Include="Window\MainWindow.cpp" />
     <ClCompile Include="Window\MainWindowToolBar.cpp" />
     <ClCompile Include="Window\SelectTypeSize.cpp" />

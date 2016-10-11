@@ -26,7 +26,7 @@ public:
 	double (&referenceMin)[1024];
 	double (&referenceMax)[1024];
 private:
-	Cursor cursor;
+	//Cursor cursor;
 	///*
 	class VCursor1 : public VBorder
 	{
@@ -81,10 +81,10 @@ public:
 	SignalViewer();
 	void operator()(TSize &);
 	void operator()(TPaint &);
-	void operator()(TMouseMove &);
-	void operator()(TLButtonDown &);
-	void operator()(TRButtonDown &);
-	void operator()(TLButtonDbClk &);
-	void operator()(TMouseWell &);
-	void operator()(TDestroy &);
+	//void operator()(TMouseMove &);
+	//void operator()(TLButtonDown &);
+	//void operator()(TRButtonDown &);
+	//void operator()(TLButtonDbClk &);
+	//void operator()(TMouseWell &);
+	//void operator()(TDestroy &);
 };

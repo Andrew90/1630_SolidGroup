@@ -5,6 +5,7 @@
 #include "SignalViewer.h"
 #include "TopLabelViewer.h"
 #include "GridCounter.h"
+#include "ColorPanel/ColorPanel.h"
 
 class MainWindow
 {
@@ -14,6 +15,7 @@ public:
 	HWND hCommunicationCheckBox;
 	HWND hStoredCheckBox;
 	HWND hPaintCheckBox;
+	bool created;
 public:
 	HWND hWnd;
 	HWND hStatusWindow;
@@ -21,6 +23,8 @@ public:
 	bool options;
 	SignalViewer signalViewer;
 	GridCounterViewer gridCounter;
+	ColorPanel colorPanel;
+	MainWindow();
 	void operator()(TSize &);
 	unsigned operator()(TNotify &);
 	void operator()(TCommand &);

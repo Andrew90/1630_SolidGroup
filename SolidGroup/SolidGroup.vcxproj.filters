@@ -94,6 +94,9 @@
     <Filter Include="Devices\502">
       <UniqueIdentifier>{f37c8f11-e605-4667-91f7-fbd809807153}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Window\ColorPanel">
+      <UniqueIdentifier>{fa6fe1b4-2542-4827-ab22-89b4c2fee01d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -408,6 +411,9 @@
     <ClInclude Include="StoredData\SolidCounter.h">
       <Filter>StoredData</Filter>
     </ClInclude>
+    <ClInclude Include="Window\ColorPanel\ColorPanel.h">
+      <Filter>Window\ColorPanel</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -646,6 +652,9 @@
     </ClCompile>
     <ClCompile Include="DlgOptions\SyncroDlg.cpp">
       <Filter>DlgOptions</Filter>
+    </ClCompile>
+    <ClCompile Include="Window\ColorPanel\ColorPanel.cpp">
+      <Filter>Window\ColorPanel</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

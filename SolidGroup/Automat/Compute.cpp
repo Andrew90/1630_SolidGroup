@@ -10,6 +10,7 @@
 #include "SaveLoadDates.h"
 #include "Templates.hpp"
 #include "DebugMess.h"
+#include "MainWindow.h"
 
 
 Compute::Compute()
@@ -105,18 +106,18 @@ bool Compute::SubCompute(int(&tresholds)[8], int start, int stop, Data &data)
 
 		double y0;
 		data.referenceBuffer(i - 1, y0);
-	    double y1;
+		double y1;
 		data.referenceBuffer(i, y1);
 
-	    double dY = y0/(y1 - y0);
+		double dY = y0/(y1 - y0);
 		if(dY < 0) dY = -dY;
 		bool b;
 		for(;(b = data.referenceBuffer(i, sample)) && sample < 0;++i);
 		if(!b || i == start) break;
 		if(i > stop) break;
 		int tLen = i - zeroStart;
-		if(tLen < minL || tLen > maxL) break;
-	//	if(dY > 1.0) break;
+		if(tLen < minL || tLen > maxL) continue;
+		//	if(dY > 1.0) break;
 		//for(int z = 0; z < k && data.dataBuffer(z + zeroStart, sample); ++z)
 		//{
 		//	data.dataBuffer(z + zeroStart - 1, y0);
@@ -187,10 +188,17 @@ void Compute::Recalculation()
 		s += corel.classTubeItem[corel.inputItem.classTube]->Name;	
 		s += L" <ff>";
 		s += Wchar_from<double>(corel.inputItem.correlation)();
+
+		mainWindow.colorPanel.SetText(
+		(wchar_t *)corel.classTubeItem[corel.inputItem.classTube]->Name.c_str()
+		, corel.classTubeItem[corel.inputItem.classTube]->color
+		);
 	}
 	else
 	{
 		s = L"";
+		mainWindow.colorPanel.Clear();
 	}
 	topLabelViewer.SetMessage((wchar_t *)s.c_str());
+	
 }
